@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f0e4">
 <title>De Gloeidraad – stadswandeling Eindhoven</title>
 <meta name="description" content="De Gloeidraad: een puzzelwandeling van 1, 1,5 of 2 uur door de binnenstad van Eindhoven, langs Philips, PSV, de Blob, de Effenaar en meer.">
 <meta property="og:title" content="De Gloeidraad – stadswandeling Eindhoven">
@@ -10,13 +11,13 @@
 <meta name="robots" content="noindex">
 <style>
 :root{
-  --bg:#10121a; --bg2:#181b27; --card:#1f2333; --line:#2e3348;
-  --ink:#f3ecdc; --dim:#a9a595; --amber:#ffb84a; --amber2:#ff8f2e; --ok:#7fd69a; --bad:#ff7b6b;
+  --bg:#f6f0e4; --bg2:#fffaf1; --card:#ffffff; --line:#e4d9c5; --field:#fbf7ef;
+  --ink:#2b2620; --dim:#6e6658; --amber:#a95b06; --amber2:#e8891c; --glow:#ffb84a; --ok:#2e8a4f; --bad:#c2392b;
   --serif:Georgia,"Times New Roman",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
-body{min-height:100vh;background:radial-gradient(900px 500px at 50% -120px,#3a2a12 0,transparent 70%),var(--bg)}
+body{min-height:100vh;background:radial-gradient(900px 520px at 50% -140px,rgba(255,196,110,.45) 0,transparent 70%),var(--bg)}
 #app{max-width:580px;margin:0 auto;padding:18px 16px 96px}
 h1,h2,h3{font-family:var(--serif);font-weight:normal;margin:0 0 .4em;line-height:1.2}
 h1{font-size:2.3rem;letter-spacing:.01em}
@@ -26,69 +27,69 @@ p{margin:.55em 0}
 a{color:var(--amber)}
 .kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
 .dim{color:var(--dim)} .small{font-size:.88rem}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 1px 3px rgba(80,60,20,.06)}
 .btn{display:block;width:100%;border:0;border-radius:12px;padding:15px 16px;font:inherit;font-weight:600;cursor:pointer;
-  background:linear-gradient(180deg,var(--amber),var(--amber2));color:#2a1700;margin:10px 0}
+  background:linear-gradient(180deg,#ffc266,var(--amber2));color:#2a1700;margin:10px 0;box-shadow:0 2px 0 rgba(169,91,6,.25)}
 .btn:active{transform:translateY(1px)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.ghost{background:var(--card);box-shadow:none;color:var(--ink);border:1px solid var(--line);font-weight:500}
 .btn.sm{display:inline-block;width:auto;padding:9px 13px;font-size:.9rem;margin:4px 6px 4px 0}
-.btn:focus-visible,input:focus-visible,.opt:focus-visible,.cell:focus-visible,.chip:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.bulb{width:74px;height:74px;margin:6px auto 10px;display:block;filter:drop-shadow(0 0 18px rgba(255,184,74,.75))}
+.btn:focus-visible,input:focus-visible,.opt:focus-visible,.cell:focus-visible,.chip:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.bulb{width:74px;height:74px;margin:6px auto 10px;display:block;filter:drop-shadow(0 0 16px rgba(255,170,50,.65))}
 .variant{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:14px 16px;margin:10px 0;color:var(--ink);font:inherit;cursor:pointer}
+  padding:14px 16px;margin:10px 0;color:var(--ink);font:inherit;cursor:pointer;box-shadow:0 1px 3px rgba(80,60,20,.06)}
 .variant b{font-family:var(--serif);font-size:1.25rem;font-weight:normal;color:var(--amber)}
 .variant span{display:block;color:var(--dim);font-size:.9rem;margin-top:3px}
 .variant:hover{border-color:var(--amber)}
-.quote{font-family:var(--serif);font-style:italic;border-left:3px solid var(--amber);padding:4px 0 4px 14px;margin:14px 0;color:#f7dfb4}
+.quote{font-family:var(--serif);font-style:italic;border-left:3px solid var(--amber);padding:4px 0 4px 14px;margin:14px 0;color:#5b4423}
 .quote small{display:block;font-style:normal;font-family:var(--sans);color:var(--dim);margin-top:4px;font-size:.78rem;letter-spacing:.04em}
 ul.facts{padding-left:1.1em;margin:.4em 0}
 ul.facts li{margin:.5em 0}
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .dots{display:flex;gap:5px;flex-wrap:wrap}
-.dot{width:11px;height:11px;border-radius:50%;background:#33384d}
-.dot.on{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.dot{width:11px;height:11px;border-radius:50%;background:#e2d6c1}
+.dot.on{background:var(--glow);box-shadow:0 0 8px var(--glow)}
 .dot.cur{outline:2px solid var(--ink);outline-offset:1px}
-#map{width:100%;height:auto;background:#151826;border:1px solid var(--line);border-radius:14px;display:block}
+#map{width:100%;height:auto;background:#efe8da;border:1px solid var(--line);border-radius:14px;display:block}
 .maplbl{font:600 11px var(--sans);fill:#cfc9b8}
 .strl{font:500 10px var(--sans);fill:#7d8299}
 .plbl{font:700 11.5px var(--sans);fill:#fff;paint-order:stroke;stroke:#151826;stroke-width:3.5px;stroke-linejoin:round}
-.mapbox{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#141826;min-height:240px}
+.mapbox{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#efe8da;min-height:240px}
 .mapbox canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
 .mapbtns{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
-.mapbtns button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:rgba(24,27,39,.92);color:var(--ink);font-size:1.2rem;cursor:pointer;padding:0}
-#toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#f3ecdc;color:#1a1300;padding:10px 16px;border-radius:999px;font-size:.92rem;z-index:9;display:none;max-width:90vw;text-align:center}
+.mapbtns button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:rgba(255,250,241,.95);color:var(--ink);box-shadow:0 1px 3px rgba(80,60,20,.12);font-size:1.2rem;cursor:pointer;padding:0}
+#toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#2b2620;color:#fffaf1;padding:10px 16px;border-radius:999px;font-size:.92rem;z-index:9;display:none;max-width:90vw;text-align:center}
 .ava{float:right;width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 0 6px 10px;border:2px solid var(--amber)}
-.pic{display:block;width:100%;height:auto;max-height:72vh;border-radius:14px;margin:10px 0;object-fit:cover;background:#0c0e15}
+.pic{display:block;width:100%;height:auto;max-height:72vh;border-radius:14px;margin:10px 0;object-fit:cover;background:#ece3d2}
 .hero{display:block;width:100%;border-radius:16px;margin:0 0 14px;aspect-ratio:4/5;object-fit:cover}
 .testbtn{border-style:dashed!important;color:var(--dim)!important}
 .q{font-family:var(--serif);font-size:1.18rem;margin:.2em 0 .7em}
-input.ans{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:#0c0e15;color:var(--ink);font:inherit;font-size:1.15rem}
-.opt{display:block;width:100%;text-align:left;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0c0e15;color:var(--ink);font:inherit;margin:8px 0;cursor:pointer}
+input.ans{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);font:inherit;font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;margin:8px 0;cursor:pointer}
 .opt.wrong{border-color:var(--bad);opacity:.6}
 .fb{min-height:1.4em;font-weight:600;margin:8px 0}
 .fb.bad{color:var(--bad)} .fb.ok{color:var(--ok)}
-.hint{background:#261f10;border:1px dashed #6b5320;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:.95rem}
-.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.45rem;letter-spacing:.14em;text-align:center;background:#0c0e15;border-radius:12px;padding:14px 8px;margin:10px 0;color:var(--amber);overflow-wrap:anywhere}
+.hint{background:#fff4da;border:1px dashed #e0b866;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:.95rem}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.45rem;letter-spacing:.14em;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;margin:10px 0;color:var(--amber);overflow-wrap:anywhere}
 .tbl{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:8px 0}
-.tbl div{background:#0c0e15;border-radius:5px;text-align:center;padding:3px 0}
+.tbl div{background:var(--card);border:1px solid var(--line);border-radius:5px;text-align:center;padding:3px 0}
 .tbl div b{display:block;color:var(--amber)}
 .morse{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
-.morse div{background:#0c0e15;border-radius:6px;padding:4px 8px}
+.morse div{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:300px;margin:14px auto}
-.cell{aspect-ratio:1;border-radius:50%;border:2px solid #4a4f66;background:#0c0e15;cursor:pointer;padding:0}
-.cell.on{background:radial-gradient(circle at 50% 40%,#fff3c9,var(--amber) 55%,var(--amber2));border-color:#ffe2a6;box-shadow:0 0 22px rgba(255,184,74,.8)}
-.lamp{display:flex;gap:12px;align-items:center;background:#261f10;border:1px solid #6b5320;border-radius:12px;padding:10px 12px;margin:12px 0}
+.cell{aspect-ratio:1;border-radius:50%;border:2px solid #cdbfa5;background:#f1eadc;cursor:pointer;padding:0}
+.cell.on{background:radial-gradient(circle at 50% 40%,#fff3c9,var(--glow) 55%,var(--amber2));border-color:#f0b453;box-shadow:0 0 22px rgba(255,184,74,.8)}
+.lamp{display:flex;gap:12px;align-items:center;background:#fff4da;border:1px solid #e9c98a;border-radius:12px;padding:10px 12px;margin:12px 0}
 .lamp .yr{font-family:var(--serif);font-size:1.6rem;color:var(--amber);min-width:3.2em}
 .word{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:14px 0}
 .slot{width:30px;height:40px;border-bottom:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.5rem;color:var(--amber)}
 .slot.gap{border:0;width:12px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.chip{border:1px solid var(--line);background:#0c0e15;color:var(--ink);border-radius:999px;padding:10px 14px;font:inherit;cursor:pointer}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 14px;font:inherit;cursor:pointer}
 .chip.shake{animation:shake .35s;border-color:var(--bad)}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-#bar{position:fixed;left:0;right:0;bottom:0;background:rgba(16,18,26,.96);border-top:1px solid var(--line);display:none;justify-content:center;gap:8px;padding:8px}
+#bar{position:fixed;left:0;right:0;bottom:0;background:rgba(250,245,236,.97);border-top:1px solid var(--line);display:none;justify-content:center;gap:8px;padding:8px}
 #bar button{flex:1;max-width:190px;margin:0}
-#sheet{position:fixed;inset:0;background:rgba(5,6,10,.8);display:none;z-index:5;overflow:auto;padding:16px}
+#sheet{position:fixed;inset:0;background:rgba(43,38,32,.45);display:none;z-index:5;overflow:auto;padding:16px}
 #sheet .inner{max-width:560px;margin:0 auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px}
 .row{display:flex;gap:10px;align-items:baseline;border-bottom:1px solid var(--line);padding:8px 0}
 .row .yr{font-family:var(--serif);color:var(--amber);min-width:3.4em}
@@ -403,7 +404,7 @@ const WEETJES=[
 const NAAM={bk:'Bijenkorf (start)',blob:'Blob',lt:'Lichttoren',ger:'Gerard Philips',psv:'Philips Stadion',wd:'Witte Dame',fab:'Eerste fabriek',frits:'Meneer Frits',
  kerk:'Catharinakerk',monu:'Bevrijdingsmonument',dyn:'Dynamo',strat:'Stratumseind',daf:'DAF Museum',eff:'Effenaar',muur:'Fabrieksmuur',silly:'Silly Walks-tunnel',ath:'Kernreactor TU/e',sta:'Station'};
 function groep(id){ return ROUTES.k.stops.includes(id)?'k':ROUTES.m.stops.includes(id)?'m':'l'; }
-const GKLEUR={k:'#ffb84a',m:'#ff7fb0',l:'#6fc3ff'};
+const GKLEUR={k:'#f2a33a',m:'#e0679c',l:'#3b93d1'};
 
 /* ---------- echte kaart: OpenStreetMap-vectortegels via shared/tiles.js, anders getekend ---------- */
 const ORG={lat:51.4410, lon:5.4790}, KX=111320*Math.cos(ORG.lat*Math.PI/180), KY=110540;
@@ -459,15 +460,15 @@ function makeMap(host, opt){
     else if(opt.focus==='all') fit(Object.values(STOPS));
     else fit(ids.map(id=>STOPS[id])); }
   function poly(p){ cx.beginPath(); for(let k=0;k<p.length;k+=2){ const X=sx(p[k]), Y=sy(p[k+1]); k?cx.lineTo(X,Y):cx.moveTo(X,Y); } }
-  function label(txt,x,y,font,fill,align){ cx.font=font; cx.textAlign=align||'center'; cx.lineJoin='round'; cx.lineWidth=3.5; cx.strokeStyle='#141826'; cx.strokeText(txt,x,y); cx.fillStyle=fill; cx.fillText(txt,x,y); }
+  function label(txt,x,y,font,fill,align){ cx.font=font; cx.textAlign=align||'center'; cx.lineJoin='round'; cx.lineWidth=3.5; cx.strokeStyle='#fbf6ec'; cx.strokeText(txt,x,y); cx.fillStyle=fill; cx.fillText(txt,x,y); }
   function draw(){ raf=0; if(!cw) size(); if(!cw) return;
     const Wd=WORLD||DRAWN, real=!!WORLD;
-    cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle='#141826'; cx.fillRect(0,0,cw,ch); cx.lineCap='round'; cx.lineJoin='round';
-    Wd.areas.forEach(a=>{ poly(a.p); cx.closePath(); cx.fillStyle=a.w==='water'?'#1b4460':'#1c3528'; cx.fill(); });
-    if(Wd.river){ poly(Wd.river); cx.strokeStyle='#1b4460'; cx.lineWidth=Math.max(4,14*V.s); cx.stroke(); }
-    poly(flat(RAIL)); cx.strokeStyle='#6a6f85'; cx.lineWidth=Math.max(2,9*V.s); cx.stroke(); cx.strokeStyle='#141826'; cx.lineWidth=Math.max(1,4*V.s); cx.setLineDash([7,7]); cx.stroke(); cx.setLineDash([]);
+    cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle='#efe8da'; cx.fillRect(0,0,cw,ch); cx.lineCap='round'; cx.lineJoin='round';
+    Wd.areas.forEach(a=>{ poly(a.p); cx.closePath(); cx.fillStyle=a.w==='water'?'#b8d6e8':'#d3e5c4'; cx.fill(); });
+    if(Wd.river){ poly(Wd.river); cx.strokeStyle='#b8d6e8'; cx.lineWidth=Math.max(4,14*V.s); cx.stroke(); }
+    poly(flat(RAIL)); cx.strokeStyle='#a39a86'; cx.lineWidth=Math.max(2,9*V.s); cx.stroke(); cx.strokeStyle='#efe8da'; cx.lineWidth=Math.max(1,4*V.s); cx.setLineDash([7,7]); cx.stroke(); cx.setLineDash([]);
     // straten: eerst de rand, dan de vulling, zodat kruisingen in elkaar lopen
-    const WID={1:2.2,2:6.5,3:11}, COL={1:'#39405a',2:'#4a5270',3:'#687196'};
+    const WID={1:2.2,2:6.5,3:11}, COL={1:'#dccfb8',2:'#ffffff',3:'#ffe6ad'};
     [1,2,3].forEach(w=>{ if(w===1 && V.s<.3) return; cx.strokeStyle=COL[w]; cx.lineWidth=Math.max(w===1?1:1.6, WID[w]*V.s);
       Wd.roads.forEach(r=>{ if(r.w!==w) return; poly(r.p); cx.stroke(); }); });
     // straatnamen
@@ -482,24 +483,24 @@ function makeMap(host, opt){
         for(const u of used) if(Math.abs(u[0]-mx)<(u[2]+tw)/2+6 && Math.abs(u[1]-my)<15) return;
         seen[key]=1; used.push([mx,my,tw]);
         let ang=Math.atan2(by-ay,bx-ax); if(ang>Math.PI/2) ang-=Math.PI; if(ang<-Math.PI/2) ang+=Math.PI;
-        cx.save(); cx.translate(mx,my); cx.rotate(ang); label(r.n,0,4,'500 11px system-ui,sans-serif','#b9bfd4'); cx.restore(); }); }
+        cx.save(); cx.translate(mx,my); cx.rotate(ang); label(r.n,0,4,'500 11px system-ui,sans-serif','#6e6658'); cx.restore(); }); }
     // route (hemelsbreed, dun) alleen in een gekozen wandeling
     const ids=routeIds();
     if(RT()){ cx.beginPath(); ids.concat(['bk']).forEach((id,i)=>{ const p=STOPS[id]; i?cx.lineTo(sx(mX(p.lng)),sy(mY(p.lat))):cx.moveTo(sx(mX(p.lng)),sy(mY(p.lat))); });
-      cx.strokeStyle='rgba(255,184,74,.38)'; cx.lineWidth=2; cx.setLineDash([2,7]); cx.stroke(); cx.setLineDash([]); }
+      cx.strokeStyle='rgba(169,91,6,.55)'; cx.lineWidth=2; cx.setLineDash([2,7]); cx.stroke(); cx.setLineDash([]); }
     // weetjes
-    WEETJES.forEach(w=>{ const X=sx(mX(w.lng)), Y=sy(mY(w.lat)); cx.beginPath(); cx.arc(X,Y,8,0,7); cx.fillStyle='#16223a'; cx.fill(); cx.strokeStyle='#9fd0ff'; cx.lineWidth=1.6; cx.stroke();
-      cx.font='italic 700 11px Georgia,serif'; cx.textAlign='center'; cx.fillStyle='#cfe6ff'; cx.fillText('i',X,Y+4);
-      if(V.s>=.75) label(w.name,X,Y+21,'500 10.5px system-ui,sans-serif','#9fd0ff'); });
+    WEETJES.forEach(w=>{ const X=sx(mX(w.lng)), Y=sy(mY(w.lat)); cx.beginPath(); cx.arc(X,Y,8,0,7); cx.fillStyle='#eaf4fb'; cx.fill(); cx.strokeStyle='#3b82b8'; cx.lineWidth=1.6; cx.stroke();
+      cx.font='italic 700 11px Georgia,serif'; cx.textAlign='center'; cx.fillStyle='#1f5d8c'; cx.fillText('i',X,Y+4);
+      if(V.s>=.75) label(w.name,X,Y+21,'500 10.5px system-ui,sans-serif','#1f5d8c'); });
     // plekken
     const walking=RT() && !['start','finale','end','back'].includes(S.phase);
     const pr=Math.max(7.5,Math.min(12,6+V.s*11)), boxes=[], todo=[];
     Object.keys(STOPS).forEach(id=>{ const p=STOPS[id], X=sx(mX(p.lng)), Y=sy(mY(p.lat)), inR=ids.includes(id), n=ids.indexOf(id), done=RT()&&S.done[id], isCur=walking&&ids[S.i]===id;
-      const col=RT()?'#ffb84a':GKLEUR[groep(id)];
+      const col=RT()?'#f2a33a':GKLEUR[groep(id)];
       cx.globalAlpha=inR?1:.35;
-      if(isCur){ cx.beginPath(); cx.arc(X,Y,pr+7,0,7); cx.fillStyle='rgba(255,255,255,.14)'; cx.fill(); cx.strokeStyle='#fff'; cx.lineWidth=2.5; cx.stroke(); }
-      cx.beginPath(); cx.arc(X,Y,pr,0,7); cx.fillStyle=(done||!RT())?col:'#1f2333'; cx.fill(); cx.strokeStyle=col; cx.lineWidth=2.5; cx.stroke();
-      cx.font='700 '+(pr>10?12:10)+'px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle=(done||!RT())?'#2a1700':'#f3ecdc'; cx.fillText(RT()&&inR?String(n+1):(id==='bk'?'★':''),X,Y+(pr>10?4.5:3.5));
+      if(isCur){ cx.beginPath(); cx.arc(X,Y,pr+7,0,7); cx.fillStyle='rgba(43,38,32,.10)'; cx.fill(); cx.strokeStyle='#2b2620'; cx.lineWidth=2.5; cx.stroke(); }
+      cx.beginPath(); cx.arc(X,Y,pr,0,7); cx.fillStyle=(done||!RT())?col:'#ffffff'; cx.fill(); cx.strokeStyle=col; cx.lineWidth=2.5; cx.stroke();
+      cx.font='700 '+(pr>10?12:10)+'px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle=(done||!RT())?'#2a1700':'#2b2620'; cx.fillText(RT()&&inR?String(n+1):(id==='bk'?'★':''),X,Y+(pr>10?4.5:3.5));
       cx.globalAlpha=1;
       if(inR) todo.push({id:id,X:X,Y:Y,pri:isCur?0:(id==='bk'?1:2)}); });
     // namen: de huidige plek altijd, de rest alleen waar ruimte is
@@ -507,13 +508,13 @@ function makeMap(host, opt){
     Object.values(STOPS).concat(WEETJES).forEach(q=>boxes.push([sx(mX(q.lng))-pr,sy(mY(q.lat))-pr,2*pr,2*pr]));
     todo.sort((a,b)=>a.pri-b.pri).forEach(t=>{ const tw=cx.measureText(NAAM[t.id]).width, bx=t.X-tw/2-3, by=t.Y-pr-19;
       if(t.pri>0){ if(bx<2||bx+tw+6>cw-2||by<2) return; for(const q of boxes) if(bx<q[0]+q[2] && bx+tw+6>q[0] && by<q[1]+q[3] && by+16>q[1]) return; }
-      boxes.push([bx,by,tw+6,16]); label(NAAM[t.id],t.X,t.Y-pr-6,'700 12px system-ui,sans-serif','#fff'); });
+      boxes.push([bx,by,tw+6,16]); label(NAAM[t.id],t.X,t.Y-pr-6,'700 12px system-ui,sans-serif','#2b2620'); });
     // jij
     if(pos){ const X=sx(mX(pos.lng)), Y=sy(mY(pos.lat)); if(pos.acc){ cx.beginPath(); cx.arc(X,Y,Math.min(120,pos.acc*V.s),0,7); cx.fillStyle='rgba(74,163,255,.14)'; cx.fill(); }
       cx.beginPath(); cx.arc(X,Y,7,0,7); cx.fillStyle='#4aa3ff'; cx.fill(); cx.strokeStyle='#fff'; cx.lineWidth=2; cx.stroke(); }
     // schaal, noorden, bron
-    const m=[50,100,200,500].find(v=>v*V.s>=46)||500; cx.strokeStyle='#cfc9b8'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(10,ch-12); cx.lineTo(10+m*V.s,ch-12); cx.stroke();
-    cx.font='500 10px system-ui,sans-serif'; cx.textAlign='left'; cx.fillStyle='#cfc9b8'; cx.fillText(m+' m',10,ch-17); cx.fillText('N ↑',10,16);
+    const m=[50,100,200,500].find(v=>v*V.s>=46)||500; cx.strokeStyle='#6e6658'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(10,ch-12); cx.lineTo(10+m*V.s,ch-12); cx.stroke();
+    cx.font='500 10px system-ui,sans-serif'; cx.textAlign='left'; cx.fillStyle='#6e6658'; cx.fillText(m+' m',10,ch-17); cx.fillText('N ↑',10,16);
     cx.textAlign='right'; cx.globalAlpha=.75;
     cx.fillText(real ? MW.Tiles.attr : worldState==='loading' ? 'Kaart laden…' : 'Getekende plattegrond (kaart niet geladen)', cw-8, ch-6); cx.globalAlpha=1;
   }
@@ -541,10 +542,10 @@ function makeMap(host, opt){
   if(window.ResizeObserver) new ResizeObserver(()=>{ const w=box.clientWidth,h=box.clientHeight; if(w&&h&&(w!==cw||h!==ch)){ const first=!cw; size(); if(first) refit(); ask(); } }).observe(box);
   return api;
 }
-function kleurLegenda(){ return '<p class="small" style="margin:.5em 0 0"><span style="color:'+GKLEUR.k+'">●</span> in elke wandeling &nbsp; <span style="color:'+GKLEUR.m+'">●</span> erbij vanaf 1,5 uur &nbsp; <span style="color:'+GKLEUR.l+'">●</span> alleen in 2 uur &nbsp; <span style="color:#9fd0ff">ⓘ</span> weetje</p><p class="small dim" style="margin:.2em 0 0">Sleep om te schuiven, knijp of gebruik + en − om te zoomen. Tik op een punt voor meer.</p>'; }
+function kleurLegenda(){ return '<p class="small" style="margin:.5em 0 0"><span style="color:'+GKLEUR.k+'">●</span> in elke wandeling &nbsp; <span style="color:'+GKLEUR.m+'">●</span> erbij vanaf 1,5 uur &nbsp; <span style="color:'+GKLEUR.l+'">●</span> alleen in 2 uur &nbsp; <span style="color:#3b82b8">ⓘ</span> weetje</p><p class="small dim" style="margin:.2em 0 0">Sleep om te schuiven, knijp of gebruik + en − om te zoomen. Tik op een punt voor meer.</p>'; }
 function toast(t){ let e=$('#toast'); if(!e){ e=document.createElement('div'); e.id='toast'; document.body.appendChild(e); } e.textContent=t; e.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>e.style.display='none',2600); }
 function tapPoint(b){
-  if(b.w){ openSheet('<p class="kicker" style="color:#9fd0ff">Weetje</p><h2>'+b.w.name+'</h2><img class="pic" src="img/'+b.w.id+'.webp" alt="" onerror="this.remove()">'+(b.w.q?'<div class="quote"><img class="ava" src="img/tonnie.webp" alt="" onerror="this.remove()">“'+b.w.q+'”<small>UIT HET SCHRIFT VAN TONNIE</small></div>':'')+'<p>'+b.w.t+'</p><p class="small dim">Geen opdracht hier. Loop er gerust langs als het op je route ligt.</p>'); return; }
+  if(b.w){ openSheet('<p class="kicker" style="color:#3b82b8">Weetje</p><h2>'+b.w.name+'</h2><img class="pic" src="img/'+b.w.id+'.webp" alt="" onerror="this.remove()">'+(b.w.q?'<div class="quote"><img class="ava" src="img/tonnie.webp" alt="" onerror="this.remove()">“'+b.w.q+'”<small>UIT HET SCHRIFT VAN TONNIE</small></div>':'')+'<p>'+b.w.t+'</p><p class="small dim">Geen opdracht hier. Loop er gerust langs als het op je route ligt.</p>'); return; }
   const id=b.stop, s=STOPS[id], inR=S.route && ROUTES[S.route].stops.includes(id), done=S.route && S.done[id];
   let h='<p class="kicker">'+(done?'Lamp aan · '+s.year : inR?'Plek '+(ROUTES[S.route].stops.indexOf(id)+1)+' van jouw wandeling' : S.route?'Niet in deze wandeling':'Plek van de wandeling')+'</p><h2>'+s.name+'</h2>';
   if(done || !S.route) h+='<ul class="facts">'+s.info.map(t=>'<li>'+t+'</li>').join('')+'</ul>';
@@ -578,7 +579,7 @@ function pins(){ try{ return JSON.parse(localStorage.getItem(PINKEY))||{}; }catc
 function setPin(id,lat,lng){ const p=pins(); p[id]=[+lat.toFixed(5),+lng.toFixed(5)]; try{ localStorage.setItem(PINKEY,JSON.stringify(p)); }catch(e){} STOPS[id].lat=p[id][0]; STOPS[id].lng=p[id][1]; toast(STOPS[id].short+' verplaatst. De lijst staat in het menu.'); redrawAll(); }
 if(TEST){ const p=pins(); Object.keys(p).forEach(id=>{ if(STOPS[id]){ STOPS[id].lat=p[id][0]; STOPS[id].lng=p[id][1]; } }); }
 
-function legend(){ return '<ol class="small dim" style="padding-left:1.4em;columns:2;margin:.6em 0 0">'+ROUTES[S.route].stops.map(id=>'<li'+(S.done[id]?' style="color:var(--amber)"':'')+'>'+STOPS[id].short+'</li>').join('')+'</ol>'; }
+function legend(){ return '<ol class="small dim" style="padding-left:1.4em;columns:2;margin:.6em 0 0">'+ROUTES[S.route].stops.map(id=>'<li'+(S.done[id]?' style="color:var(--amber);font-weight:600"':'')+'>'+STOPS[id].short+'</li>').join('')+'</ol>'; }
 
 /* ---------- schermen ---------- */
 const BULB='<svg class="bulb" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-19 8-19 18 0 7 4 12 8 16 2 2 3 4 3 7h16c0-3 1-5 3-7 4-4 8-9 8-16C51 14 43 6 32 6z" fill="#ffd98a" stroke="#ffb84a" stroke-width="2"/><path d="M25 30l4 8 3-7 3 7 4-8" fill="none" stroke="#b8580c" stroke-width="2" stroke-linejoin="round"/><rect x="24" y="48" width="16" height="4" rx="1.5" fill="#9aa0b5"/><rect x="25" y="53" width="14" height="4" rx="1.5" fill="#7c8298"/><rect x="28" y="58" width="8" height="3" rx="1.5" fill="#5d6278"/></svg>';
