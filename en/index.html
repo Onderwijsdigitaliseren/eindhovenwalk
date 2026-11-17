@@ -119,6 +119,7 @@ bk:{ name:'De Bijenkorf', short:'Bijenkorf', lat:51.44215, lng:5.47690, maps:'De
    'In 1964 vloog Ponti naar Eindhoven. Het polderlandschap onder hem, groene velden met sloten eromheen, werd zijn gevel: groen geglazuurde keramische tegels.'],
   puzzle:{type:'num', q:'Ponti is van 1891. Dat is precies het jaar waarin een paar straten verderop een klein gloeilampenfabriekje begon. Hoe oud was dat bedrijf in het jaar dat de Bijenkorf openging?', answer:78,
    hints:['De Bijenkorf opende in 1969.','1969 − 1891.']},
+  afterBank:'Onthoud 1891: dat fabriekje kom je in de echte wandeling tegen. Op de foto zie je het al een beetje: de tegels van de gevel zijn niet overal even groen.',
   after:'Onthoud 1891, dat fabriekje kom je nog tegen. Loop voor je verdergaat even dicht langs de gevel: de tegels hebben reliëf en geen twee vlakken zijn precies even groen.' },
 
 blob:{ name:'De Blob', short:'Blob', lat:51.44130, lng:5.47610, maps:'De Blob Eindhoven',
@@ -142,7 +143,8 @@ lt:{ name:'De Lichttoren', short:'Lichttoren', lat:51.44125, lng:5.47500, maps:'
    'In de toren deed Philips <b>duurproeven</b>. Lampen brandden er dag en nacht om te meten hoe lang ze het volhielden. Daardoor straalde de toren ’s nachts over de stad, en zo kwam hij aan zijn naam.',
    'Het is nu een rijksmonument met onder meer een hotel. Tijdens lichtfestival GLOW, elk jaar in november, is de witte gevel een projectiescherm.'],
   puzzle:{type:'num', q:'Kijk omhoog of loop een stukje om de toren heen. Hoeveel hoeken heeft hij?', answer:7,
-   hints:['Het is er geen zes en geen acht.','De toren is een heptagoon.']},
+   hints:['Het is er geen zes en geen acht.','De toren is een heptagoon.'],
+   bank:{q:'Vanaf de bank kun je niet om de toren heen lopen. Daarom zo: de Lichttoren is een heptagoon. Hoeveel hoeken heeft hij?', hints:['Hepta is Grieks voor een getal.','Een hexagoon heeft er zes. Dit is er één meer.']}},
   after:'Zeven hoeken: een heptagoon. Dat zie je in de bouw bijna nooit.' },
 
 ger:{ name:'Gerard Philips in het Victoriapark', short:'Gerard', lat:51.44030, lng:5.47290, maps:'Victoriapark Eindhoven',
@@ -360,6 +362,7 @@ bk:{ name:'De Bijenkorf', short:'Bijenkorf', yearWhy:'the Bijenkorf opens',
    'In 1964 Ponti flew to Eindhoven. The Dutch polder landscape below him, green fields framed by ditches, became his façade: green glazed ceramic tiles.'],
   puzzle:{type:'num', q:'Ponti was born in 1891. That is exactly the year a small light bulb factory started up a few streets away. How old was that company in the year the Bijenkorf opened?', answer:78,
    hints:['The Bijenkorf opened in 1969.','1969 − 1891.']},
+  afterBank:'Remember 1891: you’ll meet that little factory in the real walk. You can already see a hint of it in the photo: the tiles on the façade are not the same green everywhere.',
   after:'Remember 1891, you’ll meet that little factory later. Before you move on, walk close to the façade: the tiles are in relief and no two patches are exactly the same green.' },
 
 blob:{ name:'The Blob', short:'Blob', yearWhy:'the Blob is finished',
@@ -381,7 +384,8 @@ lt:{ name:'The Lichttoren', short:'Lichttoren', yearWhy:'the Lichttoren comes in
    'Philips used the tower for <b>endurance tests</b>. Lamps burned there day and night to measure how long they lasted. So at night the tower shone out over the city, and that is how it got its name: the Light Tower.',
    'It is now a listed monument with, among other things, a hotel. During the GLOW light festival, every November, the white façade becomes a projection screen.'],
   puzzle:{type:'num', q:'Look up, or walk a little way around the tower. How many corners does it have?', answer:7,
-   hints:['It isn’t six and it isn’t eight.','The tower is a heptagon.']},
+   hints:['It isn’t six and it isn’t eight.','The tower is a heptagon.'],
+   bank:{q:'From the sofa you can’t walk around the tower. So try this: the Lichttoren is a heptagon. How many corners does it have?', hints:['Hepta is Greek for a number.','A hexagon has six. This is one more.']}},
   after:'Seven corners: a heptagon. You hardly ever see that in a building.' },
 
 ger:{ name:'Gerard Philips in the Victoriapark', short:'Gerard', yearWhy:'the statue of Gerard is unveiled',
@@ -828,29 +832,30 @@ function vStart(){
   (resume ? '<button class="btn" id="go">Continue where you left off ('+ROUTES[S.route].label.toLowerCase()+', thread '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button>' : '')+
   '<h3 style="margin-top:22px">Choose your walk</h3>'+
   ['k','m','l'].map(k=>{ const r=ROUTES[k]; return '<button class="variant" data-k="'+k+'"><b>'+r.label+' · '+r.tijd+'</b><span>'+r.stops.length+' stops · about '+routeKm(k).toFixed(1)+' km · '+r.sub+'</span></button>'; }).join('')+
-  '<h3 style="margin-top:22px">Try it first</h3><button class="variant" data-k="p"><b>Trial round · ± 15 minutes</b><span>Three stops around 18 Septemberplein, with a small finale. Works from your sofa too, to see how it goes.</span></button>'+
+  '<h3 style="margin-top:22px">Try it first</h3><button class="variant" data-k="p"><b>Trial round · ± 15 minutes</b><span>Three stops around 18 Septemberplein, with a small finale.</span></button>'+
+  '<button class="variant" data-k="p" data-bank="1"><b>Trial round from the sofa · ± 10 minutes</b><span>The same three stops without walking: just the stories, the puzzles and the finale.</span></button>'+
   '<h3 style="margin-top:22px">Map: all stops</h3><div id="mapA"></div>'+kleurLegenda()+'<button class="btn ghost" id="groot">Open the large map</button>'+
   '<p class="small" style="text-align:center"><a href="../">Nederlandse versie</a></p>'+
   '<p class="small dim">For adults and older students. On your own or with a small group on one phone. The times are a guide: if you stop to look everywhere, it takes longer. Bring a charged phone.</p>';
   if(resume) $('#go').onclick=()=>render();
   $('#groot').onclick=()=>openPlattegrond(true);
   makeMap($('#mapA'),{h:'48vh',focus:'all',noRoute:true});
-  app.querySelectorAll('.variant').forEach(b=>b.onclick=()=>{ S={route:b.dataset.k,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); });
+  app.querySelectorAll('.variant').forEach(b=>b.onclick=()=>{ S={route:b.dataset.k,bank:b.dataset.bank==='1',i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); });
 }
 
 function vIntro(){
   const r=ROUTES[S.route];
   app.innerHTML='<p class="kicker">'+r.label+' · '+r.tijd+'</p><h2>How it works</h2>'+
-  '<div class="card"><ul class="facts"><li>You walk from stop to stop. The map shows where to go and where you are; the <b>Open in Maps</b> button gives directions if you’re unsure.</li>'+
-  '<li>The blue circles with an <b>i</b> are fun facts: tap them as you pass.</li>'+
-  (ROUTES[S.route].proef ? '<li>This is the trial round. You don’t actually have to be there: just tap <b>I’m here</b>.</li>' : '')+
+  '<div class="card"><ul class="facts">'+(S.bank ? '<li><b>Sofa version.</b> No walking. You read the stories and solve the puzzles right where you are. The map shows where the stops are.</li>' : '<li>You walk from stop to stop. The map shows where to go and where you are; the <b>Open in Maps</b> button gives directions if you’re unsure.</li>')+
+  '<li>The blue circles with an <b>i</b> are fun facts: tap them '+(S.bank?'on the map':'as you pass')+'.</li>'+
+  (ROUTES[S.route].proef && !S.bank ? '<li>This is the trial round. You don’t actually have to be there: just tap <b>I’m here</b>.</li>' : '')+
   '<li>At each stop you first read what happened there. Then comes one puzzle. Sometimes you calculate, sometimes you look, sometimes you crack a code.</li>'+
   '<li>If you’re stuck there are two hints. After that you can reveal the answer. You never get stranded.</li>'+
   '<li>Every solved thread gives you a lamp with a <b>year</b>. They go into your notebook (at the bottom). Keep them in mind: you’ll need them at the end.</li></ul></div>'+
   '<div id="mapA"></div>'+legend()+
-  '<button class="btn" id="go">Start at the Bijenkorf</button><button class="btn ghost" id="terug">Choose a different walk</button>';
+  '<button class="btn" id="go">'+(S.bank?'Start':'Start at the Bijenkorf')+'</button><button class="btn ghost" id="terug">Choose a different walk</button>';
   makeMap($('#mapA'),{h:'50vh',focus:'route'});
-  $('#go').onclick=()=>{ S.phase='walk'; startGps(); render(); };
+  $('#go').onclick=()=>{ if(S.bank){ S.phase='info'; } else { S.phase='walk'; startGps(); } render(); };
   $('#terug').onclick=()=>{ S.phase='start'; S.route=null; render(); };
 }
 
@@ -876,8 +881,9 @@ function vInfo(){
 }
 
 let hintN=0, grid=null;
+const puz = s => (S.bank && s.puzzle.bank) ? Object.assign({}, s.puzzle, s.puzzle.bank) : s.puzzle;
 function vPuzzle(){
-  const s=cur(), p=s.puzzle; hintN=0;
+  const s=cur(), p=puz(s); hintN=0;
   let body='';
   if(p.code) body+='<div class="code">'+p.code+'</div>';
   if(p.type==='num') body+='<input class="ans" id="ans" inputmode="numeric" autocomplete="off" placeholder="Number" aria-label="Your answer">';
@@ -920,12 +926,12 @@ function morseTable(){ const M={A:'·−',B:'−···',C:'−·−·',D:'−·�
 function solved(help){ S.done[curId()]=help?2:1; S.phase='after'; render(); }
 
 function vAfter(){
-  const s=cur(), p=s.puzzle, id=curId(), last=S.i===ROUTES[S.route].stops.length-1;
+  const s=cur(), p=puz(s), id=curId(), last=S.i===ROUTES[S.route].stops.length-1;
   const antw = p.type==='num' ? p.answer : p.type==='choice' ? p.options[p.correct] : p.type==='text' ? p.show : 'All lamps on';
-  app.innerHTML=head()+'<p class="kicker" style="color:var(--ok)">'+(S.done[id]===2?'Solved with help':'Thread found')+'</p><h2>'+antw+'</h2><p>'+s.after+'</p><img class="pic" src="../img/'+id+'-2.webp" alt="" onerror="this.remove()">'+
+  app.innerHTML=head()+'<p class="kicker" style="color:var(--ok)">'+(S.done[id]===2?'Solved with help':'Thread found')+'</p><h2>'+antw+'</h2><p>'+((S.bank && s.afterBank) || s.after)+'</p><img class="pic" src="../img/'+id+'-2.webp" alt="" onerror="this.remove()">'+
   '<div class="lamp"><span class="yr">'+s.year+'</span><span><b>'+s.short+'</b><br><span class="small dim">'+s.yearWhy+' · saved in your notebook</span></span></div>'+
-  '<button class="btn" id="go">'+(last?'Back to the square':'Walk on')+'</button>';
-  $('#go').onclick=()=>{ if(last){ S.phase='back'; } else { S.i++; S.phase='walk'; } render(); };
+  '<button class="btn" id="go">'+(S.bank ? (last?'To the lamp chest':'Next stop') : (last?'Back to the square':'Walk on'))+'</button>';
+  $('#go').onclick=()=>{ if(last){ S.phase=S.bank?'finale':'back'; S.fin=0; } else { S.i++; S.phase=S.bank?'info':'walk'; } render(); };
 }
 
 function vBack(){
@@ -995,7 +1001,7 @@ $('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Your prog
     if(n) $('#pinReset').onclick=()=>{ try{ localStorage.removeItem(PINKEY); }catch(e){} location.reload(); }; }
   $('#mCred').onclick=openCredits;
   $('#mStart').onclick=()=>{ sheet.style.display='none'; window.scrollTo(0,0); vStart(); $('#bar').style.display='none'; };
-  $('#mReset').onclick=()=>{ sheet.style.display='none'; S={route:S.route,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); }; };
+  $('#mReset').onclick=()=>{ sheet.style.display='none'; S={route:S.route,bank:S.bank,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); }; };
 
 load(); if(S.route && S.phase!=='start'){ vStart(); $('#bar').style.display='none'; } else render();
 </script>

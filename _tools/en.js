@@ -10,6 +10,7 @@ bk:{ name:'De Bijenkorf', short:'Bijenkorf', yearWhy:'the Bijenkorf opens',
    'In 1964 Ponti flew to Eindhoven. The Dutch polder landscape below him, green fields framed by ditches, became his façade: green glazed ceramic tiles.'],
   puzzle:{type:'num', q:'Ponti was born in 1891. That is exactly the year a small light bulb factory started up a few streets away. How old was that company in the year the Bijenkorf opened?', answer:78,
    hints:['The Bijenkorf opened in 1969.','1969 − 1891.']},
+  afterBank:'Remember 1891: you’ll meet that little factory in the real walk. You can already see a hint of it in the photo: the tiles on the façade are not the same green everywhere.',
   after:'Remember 1891, you’ll meet that little factory later. Before you move on, walk close to the façade: the tiles are in relief and no two patches are exactly the same green.' },
 
 blob:{ name:'The Blob', short:'Blob', yearWhy:'the Blob is finished',
@@ -31,7 +32,8 @@ lt:{ name:'The Lichttoren', short:'Lichttoren', yearWhy:'the Lichttoren comes in
    'Philips used the tower for <b>endurance tests</b>. Lamps burned there day and night to measure how long they lasted. So at night the tower shone out over the city, and that is how it got its name: the Light Tower.',
    'It is now a listed monument with, among other things, a hotel. During the GLOW light festival, every November, the white façade becomes a projection screen.'],
   puzzle:{type:'num', q:'Look up, or walk a little way around the tower. How many corners does it have?', answer:7,
-   hints:['It isn’t six and it isn’t eight.','The tower is a heptagon.']},
+   hints:['It isn’t six and it isn’t eight.','The tower is a heptagon.'],
+   bank:{q:'From the sofa you can’t walk around the tower. So try this: the Lichttoren is a heptagon. How many corners does it have?', hints:['Hepta is Greek for a number.','A hexagon has six. This is one more.']}},
   after:'Seven corners: a heptagon. You hardly ever see that in a building.' },
 
 ger:{ name:'Gerard Philips in the Victoriapark', short:'Gerard', yearWhy:'the statue of Gerard is unveiled',
