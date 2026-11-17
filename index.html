@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Gloeidraad – stadswandeling Eindhoven</title>
+<meta name="description" content="De Gloeidraad: een puzzelwandeling van 1, 1,5 of 2 uur door de binnenstad van Eindhoven, langs Philips, PSV, de Blob, de Effenaar en meer.">
+<meta property="og:title" content="De Gloeidraad – stadswandeling Eindhoven">
+<meta property="og:image" content="img/og.jpg">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#10121a; --bg2:#181b27; --card:#1f2333; --line:#2e3348;
+  --ink:#f3ecdc; --dim:#a9a595; --amber:#ffb84a; --amber2:#ff8f2e; --ok:#7fd69a; --bad:#ff7b6b;
+  --serif:Georgia,"Times New Roman",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+body{min-height:100vh;background:radial-gradient(900px 500px at 50% -120px,#3a2a12 0,transparent 70%),var(--bg)}
+#app{max-width:580px;margin:0 auto;padding:18px 16px 96px}
+h1,h2,h3{font-family:var(--serif);font-weight:normal;margin:0 0 .4em;line-height:1.2}
+h1{font-size:2.3rem;letter-spacing:.01em}
+h2{font-size:1.55rem}
+h3{font-size:1.1rem;color:var(--amber)}
+p{margin:.55em 0}
+a{color:var(--amber)}
+.kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.dim{color:var(--dim)} .small{font-size:.88rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px 16px;font:inherit;font-weight:600;cursor:pointer;
+  background:linear-gradient(180deg,var(--amber),var(--amber2));color:#2a1700;margin:10px 0}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.sm{display:inline-block;width:auto;padding:9px 13px;font-size:.9rem;margin:4px 6px 4px 0}
+.btn:focus-visible,input:focus-visible,.opt:focus-visible,.cell:focus-visible,.chip:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.bulb{width:74px;height:74px;margin:6px auto 10px;display:block;filter:drop-shadow(0 0 18px rgba(255,184,74,.75))}
+.variant{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;margin:10px 0;color:var(--ink);font:inherit;cursor:pointer}
+.variant b{font-family:var(--serif);font-size:1.25rem;font-weight:normal;color:var(--amber)}
+.variant span{display:block;color:var(--dim);font-size:.9rem;margin-top:3px}
+.variant:hover{border-color:var(--amber)}
+.quote{font-family:var(--serif);font-style:italic;border-left:3px solid var(--amber);padding:4px 0 4px 14px;margin:14px 0;color:#f7dfb4}
+.quote small{display:block;font-style:normal;font-family:var(--sans);color:var(--dim);margin-top:4px;font-size:.78rem;letter-spacing:.04em}
+ul.facts{padding-left:1.1em;margin:.4em 0}
+ul.facts li{margin:.5em 0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:11px;height:11px;border-radius:50%;background:#33384d}
+.dot.on{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.dot.cur{outline:2px solid var(--ink);outline-offset:1px}
+#map{width:100%;height:auto;background:#151826;border:1px solid var(--line);border-radius:14px;display:block}
+.maplbl{font:600 11px var(--sans);fill:#cfc9b8}
+.strl{font:500 10px var(--sans);fill:#7d8299}
+.plbl{font:700 11.5px var(--sans);fill:#fff;paint-order:stroke;stroke:#151826;stroke-width:3.5px;stroke-linejoin:round}
+.mapbox{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#141826;min-height:240px}
+.mapbox canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.mapbtns{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.mapbtns button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:rgba(24,27,39,.92);color:var(--ink);font-size:1.2rem;cursor:pointer;padding:0}
+#toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#f3ecdc;color:#1a1300;padding:10px 16px;border-radius:999px;font-size:.92rem;z-index:9;display:none;max-width:90vw;text-align:center}
+.ava{float:right;width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 0 6px 10px;border:2px solid var(--amber)}
+.pic{display:block;width:100%;border-radius:14px;margin:10px 0;aspect-ratio:3/2;object-fit:cover;background:#0c0e15}
+.hero{display:block;width:100%;border-radius:16px;margin:0 0 14px;aspect-ratio:4/5;object-fit:cover}
+.testbtn{border-style:dashed!important;color:var(--dim)!important}
+.q{font-family:var(--serif);font-size:1.18rem;margin:.2em 0 .7em}
+input.ans{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:#0c0e15;color:var(--ink);font:inherit;font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0c0e15;color:var(--ink);font:inherit;margin:8px 0;cursor:pointer}
+.opt.wrong{border-color:var(--bad);opacity:.6}
+.fb{min-height:1.4em;font-weight:600;margin:8px 0}
+.fb.bad{color:var(--bad)} .fb.ok{color:var(--ok)}
+.hint{background:#261f10;border:1px dashed #6b5320;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:.95rem}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.45rem;letter-spacing:.14em;text-align:center;background:#0c0e15;border-radius:12px;padding:14px 8px;margin:10px 0;color:var(--amber);overflow-wrap:anywhere}
+.tbl{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:8px 0}
+.tbl div{background:#0c0e15;border-radius:5px;text-align:center;padding:3px 0}
+.tbl div b{display:block;color:var(--amber)}
+.morse{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
+.morse div{background:#0c0e15;border-radius:6px;padding:4px 8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:300px;margin:14px auto}
+.cell{aspect-ratio:1;border-radius:50%;border:2px solid #4a4f66;background:#0c0e15;cursor:pointer;padding:0}
+.cell.on{background:radial-gradient(circle at 50% 40%,#fff3c9,var(--amber) 55%,var(--amber2));border-color:#ffe2a6;box-shadow:0 0 22px rgba(255,184,74,.8)}
+.lamp{display:flex;gap:12px;align-items:center;background:#261f10;border:1px solid #6b5320;border-radius:12px;padding:10px 12px;margin:12px 0}
+.lamp .yr{font-family:var(--serif);font-size:1.6rem;color:var(--amber);min-width:3.2em}
+.word{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:14px 0}
+.slot{width:30px;height:40px;border-bottom:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.5rem;color:var(--amber)}
+.slot.gap{border:0;width:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{border:1px solid var(--line);background:#0c0e15;color:var(--ink);border-radius:999px;padding:10px 14px;font:inherit;cursor:pointer}
+.chip.shake{animation:shake .35s;border-color:var(--bad)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+#bar{position:fixed;left:0;right:0;bottom:0;background:rgba(16,18,26,.96);border-top:1px solid var(--line);display:none;justify-content:center;gap:8px;padding:8px}
+#bar button{flex:1;max-width:190px;margin:0}
+#sheet{position:fixed;inset:0;background:rgba(5,6,10,.8);display:none;z-index:5;overflow:auto;padding:16px}
+#sheet .inner{max-width:560px;margin:0 auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px}
+.row{display:flex;gap:10px;align-items:baseline;border-bottom:1px solid var(--line);padding:8px 0}
+.row .yr{font-family:var(--serif);color:var(--amber);min-width:3.4em}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="bar"><button class="btn ghost sm" id="bSchrift">📓 Schrift</button><button class="btn ghost sm" id="bMap">🗺 Kaart</button><button class="btn ghost sm" id="bMenu">⋯ Menu</button></div>
+<div id="sheet"><div class="inner" id="sheetIn"></div></div>
+
+<script src="shared/tiles.js?v=1"></script>
+<script>
+/* =====================================================================
+   DE GLOEIDRAAD – stadswandeling Eindhoven
+   Opbouw: STOPS (inhoud per plek) · ROUTES (3 varianten) · toestand · schermen
+   Kader (Tonnie) is verzonnen; alle feiten bij de plekken zijn echt.
+   ===================================================================== */
+
+const STOPS = {
+bk:{ name:'De Bijenkorf', short:'Bijenkorf', lat:51.44215, lng:5.47690, maps:'De Bijenkorf Eindhoven',
+  year:1969, yearWhy:'opening van de Bijenkorf',
+  walk:'Je staat er al: het 18 Septemberplein, met de groene gevel van de Bijenkorf.',
+  tonnie:'Begin waar het groen is. Een Italiaan keek uit een vliegtuigraampje naar onze weilanden en maakte er een warenhuis van.',
+  info:[
+   'Het plein heet naar <b>18 september 1944</b>, de dag waarop Eindhoven werd bevrijd. De rest van Nederland moest daar grotendeels nog tot mei 1945 op wachten.',
+   'De Bijenkorf ging open op <b>18 maart 1969</b> en was het eerste filiaal buiten de Randstad. De ontwerper was de Milanees <b>Gio Ponti</b>, die ook bestek, meubels en zelfs een carrosserie voor Alfa Romeo tekende.',
+   'In 1964 vloog Ponti naar Eindhoven. Het polderlandschap onder hem, groene velden met sloten eromheen, werd zijn gevel: groen geglazuurde keramische tegels.'],
+  puzzle:{type:'num', q:'Ponti is van 1891. Dat is precies het jaar waarin een paar straten verderop een klein gloeilampenfabriekje begon. Hoe oud was dat bedrijf in het jaar dat de Bijenkorf openging?', answer:78,
+   hints:['De Bijenkorf opende in 1969.','1969 − 1891.']},
+  after:'Onthoud 1891, dat fabriekje kom je nog tegen. Loop voor je verdergaat even dicht langs de gevel: de tegels hebben reliëf en geen twee vlakken zijn precies even groen.' },
+
+blob:{ name:'De Blob', short:'Blob', lat:51.44130, lng:5.47610, maps:'De Blob Eindhoven',
+  year:2010, yearWhy:'de Blob is klaar',
+  walk:'Steek het plein over naar de glazen bult aan de kant van de Emmasingel.',
+  tonnie:'In mijn tijd was glas iets waar je een gloeidraad in stopte. Nu wonen er winkels in.',
+  info:[
+   'Officieel is dit het entreegebouw van winkelgebied de Admirant. Iedereen zegt <b>de Blob</b>. Het ontwerp is van de Italiaan <b>Massimiliano Fuksas</b> en is van staal en glas.',
+   'Fuksas tekende ook het plein zelf, de glazen overkapping bij de Bijenkorf en de fietsenstalling onder je voeten.',
+   'De naam komt van “blob-architectuur”: vloeiende vormen die pas met de computer te tekenen waren. Aan de overkant van het plein staat sinds 2013 een kleiner zusje, de Bubble, van een andere architect.'],
+  puzzle:{type:'num', q:'In computertaal is een BLOB een Binary Large OBject. Binair dus: de Blob is 11001 meter hoog. Hoeveel meter is dat in gewone getallen?', answer:25,
+   hints:['Elke plek is van rechts naar links 1, 2, 4, 8 en 16 waard.','16 + 8 + 0 + 0 + 1.']},
+  after:'25 meter hoog, met een huid van zo’n 1.500 ruiten. Kijk goed: ze zijn allemaal driehoekig.' },
+
+lt:{ name:'De Lichttoren', short:'Lichttoren', lat:51.44125, lng:5.47500, maps:'Lichttoren Eindhoven',
+  year:1921, yearWhy:'de Lichttoren in gebruik',
+  walk:'Aan de overkant van de Emmasingel staat een witte toren. Loop ernaartoe.',
+  tonnie:'Hier werkte ik. Mijn werk was wachten tot een lamp doodging en dan opschrijven hoe laat het was.',
+  info:[
+   'Dit complex is tussen <b>1909 en 1921</b> in delen gebouwd als gloeilampenfabriek van Philips. De toren kwam er in 1921 bij en was toen de eerste hoogbouw van de stad: 48 meter.',
+   'In de toren deed Philips <b>duurproeven</b>. Lampen brandden er dag en nacht om te meten hoe lang ze het volhielden. Daardoor straalde de toren ’s nachts over de stad, en zo kwam hij aan zijn naam.',
+   'Het is nu een rijksmonument met onder meer een hotel. Tijdens lichtfestival GLOW, elk jaar in november, is de witte gevel een projectiescherm.'],
+  puzzle:{type:'num', q:'Kijk omhoog of loop een stukje om de toren heen. Hoeveel hoeken heeft hij?', answer:7,
+   hints:['Het is er geen zes en geen acht.','De toren is een heptagoon.']},
+  after:'Zeven hoeken: een heptagoon. Dat zie je in de bouw bijna nooit.' },
+
+ger:{ name:'Gerard Philips in het Victoriapark', short:'Gerard', lat:51.44030, lng:5.47290, maps:'Victoriapark Eindhoven',
+  year:2023, yearWhy:'het beeld van Gerard onthuld',
+  walk:'Loop om de Lichttoren heen naar het park erachter, het Victoriapark. Zoek het grootste hoofd van Eindhoven.',
+  tonnie:'Meneer Gerard was de uitvinder, zijn broer Anton de verkoper. De verkoper kreeg als eerste een standbeeld. Zo gaat dat.',
+  info:[
+   '<b>Gerard Philips</b> (1858–1942), geboren in Zaltbommel, begon het bedrijf in 1891 samen met zijn vader Frederik. Zijn broer Anton en neef Frits hadden al lang een standbeeld; Gerard niet.',
+   'Dit beeld heet <b>Poort naar de Toekomst</b> en is gemaakt door Andreas Hetfeld. Het was een cadeau van Philips aan de stad voor het 130-jarig bestaan. Het bestaat uit 4.659 losse onderdelen, weegt 23.000 kilo en je kunt erdoorheen lopen.',
+   'Het werd in mei 2023 onthuld op Strijp-T en staat sinds 2025 hier. In hetzelfde park is het beekje de Gender, dat jarenlang onder de grond zat, over 220 meter weer bovengehaald.'],
+  puzzle:{type:'num', q:'Het beeld is 7 meter hoog en gestapeld uit 500 lagen staal. Hoe dik is één laag gemiddeld, in millimeters?', answer:14,
+   hints:['7 meter is 7.000 millimeter.','7.000 : 500.']},
+  after:'Veertien millimeter per laag. Loop er gerust doorheen: de opening is acht meter breed.' },
+
+psv:{ name:'Philips Stadion', short:'PSV', lat:51.44160, lng:5.46870, maps:'Philips Stadion Eindhoven',
+  year:1913, yearWhy:'PSV opgericht',
+  walk:'Volg de Mathildelaan naar het westen. Het stadion kun je niet missen.',
+  tonnie:'Op zondag stonden we hier met de hele afdeling. Wie verloor had maandag de slechtste lampen.',
+  info:[
+   'PSV is de <b>Philips Sport Vereniging</b>, opgericht op <b>31 augustus 1913</b> als sportclub van en voor het personeel. Aanleiding was een feest voor honderd jaar onafhankelijk Nederland.',
+   'De club speelt sinds het begin op deze plek. De aftrap van de eerste wedstrijd was van een jongetje van acht: <b>Frits Philips</b>.',
+   'Frits bleef zijn leven lang komen en maakte alle achttien landstitels tot en met 2005 mee. Buiten het stadion staan beelden van clubhelden Willy van der Kuijlen en Coen Dillen. Bijnamen van de club: de Boeren en de Lampen.'],
+  puzzle:{type:'num', q:'Frits deed de aftrap in 1913 en zag PSV in 2005 nog kampioen worden. Hoeveel jaar zat er tussen die aftrap en die laatste titel?', answer:92,
+   hints:['Je hebt alleen de twee jaartallen nodig.','2005 − 1913.']},
+  after:'Tweeënnegentig jaar dezelfde club, op dezelfde plek. Loop nu terug richting de Lichttoren.' },
+
+wd:{ name:'De Witte Dame', short:'Witte Dame', lat:51.43960, lng:5.47440, maps:'De Witte Dame Eindhoven',
+  year:1931, yearWhy:'de Witte Dame voltooid',
+  walk:'Loop terug naar de Emmasingel. Het lange witte fabrieksgebouw naast de Lichttoren is de Witte Dame.',
+  walkFrom:{lt:'Loop de Emmasingel af. Het lange witte fabrieksgebouw naast de Lichttoren is de Witte Dame.'},
+  tonnie:'Verdiepingen vol meisjes aan lange tafels. Wij noemden het de buizenfabriek.',
+  info:[
+   'Architect <b>Dirk Roosenburg</b> bouwde dit tussen 1928 en 1931 voor Philips. Er werden onder meer radiobuizen gemaakt.',
+   'Op <b>6 december 1942</b> bombardeerde de Britse luchtmacht de Philipsfabrieken, omdat de bezetter er onderdelen voor militaire radio’s liet maken. Dit “Sinterklaasbombardement” trof ook de stad eromheen; meer dan honderd burgers kwamen om.',
+   'Toen Philips vertrok, dreigde sloop. In 1998 ging het gebouw opnieuw open. De Design Academy Eindhoven zit er nu in.'],
+  puzzle:{type:'text', q:'Zij is wit en heet de Dame. Aan de overkant staat haar partner: het voormalige hoofdkantoor van Philips, in donkere baksteen. Hoe noemen Eindhovenaren hem?', accept:['bruineheer','debruineheer','heer','deheer'], show:'De Bruine Heer',
+   hints:['Kijk naar de kleur van het gebouw aan de overkant.','Zij is een dame, hij is een …']},
+  after:'De Witte Dame en de Bruine Heer staan al bijna een eeuw tegenover elkaar.' },
+
+fab:{ name:'Het eerste fabriekje', short:'Eerste fabriek', lat:51.43905, lng:5.47565, maps:'Philips Museum Eindhoven',
+  year:1891, yearWhy:'begin van Philips',
+  walk:'Loop de Emmasingel verder af tot nummer 31: het Philips Museum.',
+  tonnie:'Hier is het begonnen, in een oud fabriekje. Geen toren, geen stadion. Een werkbank en een pomp om lucht uit glas te zuigen.',
+  info:[
+   'Op <b>15 mei 1891</b> begon Gerard Philips hier met geld van zijn vader een gloeilampenfabriek. Eindhoven had toen zo’n 4.500 inwoners. Grond en arbeid waren er goedkoop.',
+   'De eerste lampen hadden een <b>kooldraad</b>. Het ging pas goed lopen toen Gerards jongere broer Anton in 1895 de verkoop kwam doen.',
+   'Het gebouwtje is bewaard gebleven en is nu het Philips Museum.'],
+  puzzle:{type:'lights', q:'Tonnies werkbank. Krijg alle negen lampen aan. Let op: elke schakelaar zet ook de lampen ernaast om.',
+   hints:['Het kan altijd. Werk rij voor rij: gebruik de tweede rij om de eerste rij goed te krijgen.','Kom je er niet uit, dan mag je hieronder de werkbank laten oplossen.']},
+  after:'Negen lampen. In 1891 was één lamp die een avond bleef branden al goed nieuws.' },
+
+frits:{ name:'Meneer Frits op de Markt', short:'Meneer Frits', lat:51.43905, lng:5.47830, maps:'Standbeeld Frits Philips Markt Eindhoven',
+  year:1905, yearWhy:'Frits Philips geboren',
+  walk:'Loop het winkelgebied in naar het oosten, tot je op de Markt staat. Zoek daar een bronzen heer.',
+  tonnie:'Meneer Frits kende je naam. Dat was vervelend als je iets fout had gedaan en fijn op alle andere dagen.',
+  info:[
+   '<b>Frits Philips</b> was de zoon van Anton en werd later zelf de baas. In de stad heette hij “meneer Frits”, omdat hij met arbeiders net zo makkelijk praatte als met directeuren.',
+   'In de oorlog bleef hij als enige van de directie in Nederland. Hij wist <b>382 Joodse werknemers</b> te redden door ze onmisbaar te verklaren voor de productie. Yad Vashem eerde hem daarvoor in 1996.',
+   'Het beeld is van Kees Verkade en is betaald door burgers, instellingen en bedrijven uit de regio. Voor zijn laatste verjaardag heette Eindhoven zelfs even Frits Philips Stad.'],
+  puzzle:{type:'num', q:'Zoek het naambordje bij het beeld. Er staan twee jaartallen op. Hoe oud is meneer Frits geworden?', answer:100,
+   hints:['Trek het eerste jaartal van het tweede af.','Hij leefde van 1905 tot 2005.']},
+  after:'Honderd jaar. Hij maakte de gloeilamp, de radio, de televisie, de cassette en de cd allemaal van dichtbij mee.' },
+
+kerk:{ name:'De Catharinakerk', short:'Catharinakerk', lat:51.43690, lng:5.47975, maps:'Sint-Catharinakerk Eindhoven',
+  year:1867, yearWhy:'de Catharinakerk voltooid',
+  walk:'Neem vanaf de Markt de Rechtestraat naar het zuiden. Aan het eind zie je twee kerktorens.',
+  tonnie:'Kijk eens goed naar die twee torens. Mijn moeder zei: zelfs een tweeling is nooit hetzelfde.',
+  info:[
+   'Deze neogotische kerk is gebouwd tussen <b>1859 en 1867</b>. Ze stond er dus al toen Philips nog moest beginnen en Eindhoven een stadje van een paar duizend mensen was.',
+   'De architect keek naar Franse kathedralen als Chartres en Reims. De twee torens zijn met opzet <b>niet gelijk</b>. Zoek de verschillen.',
+   'Het was een van zijn vroege grote werken. Daarna werd hij de bekendste bouwmeester van Nederland.'],
+  puzzle:{type:'choice', q:'De architect heet Pierre Cuypers. Welke twee gebouwen in Amsterdam, waar bijna elke toerist langskomt, tekende hij later ook?',
+   options:['Het Paleis op de Dam en de Westerkerk','Het Rijksmuseum en het Centraal Station','Het Concertgebouw en het Stedelijk Museum','De Beurs en Tuschinski'], correct:1,
+   hints:['Het ene gebouw hangt vol Rembrandts.','Bij het andere stap je uit de trein.']},
+  after:'Het Rijksmuseum en Amsterdam Centraal. Eindhoven had zijn Cuypers eerder.' },
+
+monu:{ name:'Het Bevrijdingsmonument', short:'Bevrijdingsmonument', lat:51.43655, lng:5.47800, maps:'Bevrijdingsmonument Stadhuisplein Eindhoven',
+  year:1944, yearWhy:'Eindhoven bevrijd',
+  walk:'Loop vanaf de kerk naar het westen, naar het Stadhuisplein. Het bronzen monument staat op het plein.',
+  tonnie:'Die avond zetten we alles wat licht gaf voor het raam. Na vier jaar verduisteren.',
+  info:[
+   'Op <b>18 september 1944</b> bevrijdde de Amerikaanse 101st Airborne Division de stad, als onderdeel van operatie Market Garden. Het monument van Paul Grégoire werd precies tien jaar later onthuld.',
+   'Elk jaar op 18 september komt hier het <b>bevrijdingsvuur</b> aan, door fietsers opgehaald in Bayeux in Normandië. De burgemeester steekt er de fakkel mee aan. Dat is ook het startsein voor de <b>Lichtjesroute</b>: 22 kilometer lichtornamenten door de stad.',
+   'Rond het monument staan de namen van Eindhovense oorlogsslachtoffers. In 2023 bleek dat er ook SS’ers en NSB’ers tussen stonden. Die 22 namen zijn weggehaald en 155 ontbrekende slachtoffers kwamen erbij.'],
+  puzzle:{type:'text', cipher:18, q:'Tonnie schreef hier één woord in geheimschrift. Hij schoof elke letter 18 plaatsen op in het alfabet, naar de dag van de bevrijding. Schuif terug.', code:'TWNJABV', accept:['bevrijd'], show:'BEVRIJD',
+   hints:['De T was eerst een B.','Gebruik de tabel hieronder: zoek de codeletter in de onderste rij en lees de letter erboven.']},
+  after:'Bevrijd. De traditie van de lichtjes begon in 1945, toen bewoners bij de eerste herdenking kaarsen en lampjes achter hun ramen zetten.' },
+
+dyn:{ name:'Dynamo', short:'Dynamo', lat:51.43767, lng:5.48055, maps:'Dynamo Eindhoven Catharinaplein',
+  year:1986, yearWhy:'eerste Dynamo Open Air',
+  walk:'Dynamo zit aan het Catharinaplein, vlak naast de kerk (nummer 21).',
+  walkFrom:{frits:'Neem vanaf de Markt de Rechtestraat naar het zuiden tot de kerk met de twee torens (van Pierre Cuypers, 1867). Dynamo zit ernaast, aan het Catharinaplein.'},
+  tonnie:'Mijn kleinzoon kwam hier thuis met piepende oren. Ik zei: jongen, dat had ik in de fabriek ook, maar ik kreeg ervoor betaald.',
+  info:[
+   'Dynamo is het jongerencentrum van Eindhoven. De rockclub begon in <b>1981</b>. Het huidige gebouw is van 2005.',
+   'Voor het vijfjarig bestaan organiseerde de club in <b>1986</b> een festival op het parkeerterrein. Er kwamen 5.000 mensen. Dat was de eerste <b>Dynamo Open Air</b>.',
+   'In <b>1995</b> stond het festival op vliegbasis Welschap en kwamen er 118.000 bezoekers. Het is nog altijd het grootste meerdaagse openluchtfestival dat Nederland heeft gehad. De wegen rond de stad stonden muurvast.'],
+  puzzle:{type:'choice', q:'Van parkeerterrein in 1986 naar vliegbasis in 1995. Hoeveel keer zo groot was het publiek geworden?',
+   options:['Ongeveer 6 keer','Ongeveer 12 keer','Bijna 24 keer','Bijna 48 keer'], correct:2,
+   hints:['118.000 gedeeld door 5.000.','5.000 × 20 is 100.000. Je zit er net boven.']},
+  after:'Bijna 24 keer. Daarna moest het festival krimpen. De opvolger heet Dynamo Metalfest en staat elk jaar in het IJssportcentrum.' },
+
+strat:{ name:'Stratumseind', short:'Stratumseind', lat:51.43530, lng:5.48060, maps:'Stratumseind Eindhoven',
+  year:2014, yearWhy:'Stratumseind wordt Living Lab',
+  walk:'Bij de kerk begint het Stratumseind. Loop de straat helemaal uit, tot aan het water van de Dommel.',
+  tonnie:'Vroeger keken alleen de buren naar je als je naar huis zwalkte. Nu kijkt de lantaarnpaal ook.',
+  info:[
+   'Dit is de langste kroegenstraat van Nederland: ongeveer 300 meter met zo’n 50 cafés. Op een weekendnacht komen er rond de 15.000 mensen.',
+   'Sinds <b>2014</b> is de straat ook een laboratorium, het <b>Living Lab</b>. Sensoren tellen bezoekers en meten geluid.',
+   'Het bekendste experiment gaat over licht. Onderzoekers van de TU/e en Philips testen hier of je met de kleur en sterkte van de straatverlichting de stemming kunt bijsturen als het uit de hand dreigt te lopen. Niet iedereen is blij met zoveel meten; over de privacy is veel discussie.'],
+  puzzle:{type:'num', q:'Zo’n 50 cafés op 300 meter. Om de hoeveel meter staat er gemiddeld een kroeg?', answer:6,
+   hints:['Deel de lengte door het aantal.','300 : 50.']},
+  after:'Elke zes meter een café. De straat heet naar het vroegere dorp Stratum, dat in 1920 bij Eindhoven kwam.' },
+
+daf:{ name:'DAF Museum', short:'DAF', lat:51.43723, lng:5.49046, maps:'DAF Museum Eindhoven',
+  year:1928, yearWhy:'Hub van Doorne begint zijn werkplaats',
+  walk:'Dit is het langste stuk, ruim tien minuten. Loop terug richting de kerk en ga dan naar het oosten, via de Ten Hagestraat en de Kanaalstraat naar de Tongelresestraat 27. Volg anders de knop “Open in Maps”.',
+  tonnie:'Hub kwam bij ons lassen als wij het zelf niet konden. Een smid uit Limburg. Later reed half Nederland in zijn autootjes.',
+  info:[
+   'Op <b>1 april 1928</b> begon Hub van Doorne hier een werkplaats met vier man, in een hoekje van een bierbrouwerij.',
+   'Dat kwam door een kapotte auto. De brouwer had een Amerikaanse Stearns-Knight die niemand aan de praat kreeg, behalve Hub. De brouwer leende hem daarna 10.000 gulden en de ruimte om voor zichzelf te beginnen.',
+   'Eerst deed hij las- en smeedwerk, ook voor Philips. Het museum zit in de oude brouwerij en de eerste werkplaats is bewaard gebleven.'],
+  puzzle:{type:'text', q:'DAF betekent nu Van Doorne’s Automobiel Fabriek. Maar tot 1949 stond de A voor iets wat je áchter een auto hangt. Welk woord?', accept:['aanhangwagen','aanhangwagens','aanhangwagenfabriek','aanhanger','aanhangers'], show:'Aanhangwagen',
+   hints:['Het begint ook met een A.','Vrachtverkeer: de trekker en de …']},
+  after:'Van Doorne’s Aanhangwagen Fabriek, sinds 1932. In 1949 kwam de eerste vrachtwagen en kon de naam blijven. De personenauto met het “pientere pookje” kwam daarna; die tak ging in 1975 naar Volvo.' },
+
+eff:{ name:'De Effenaar', short:'Effenaar', lat:51.44176, lng:5.48321, maps:'Effenaar Eindhoven',
+  year:1971, yearWhy:'de Effenaar begint',
+  walk:'Loop terug naar het noorden over de Vestdijk en sla rechtsaf de Dommelstraat in. Aan het eind staat de Effenaar.',
+  walkFrom:{daf:'Loop de Tongelresestraat terug naar het westen, ga op de Vestdijk naar het noorden en sla rechtsaf de Dommelstraat in. Aan het eind staat de Effenaar.'},
+  tonnie:'Eerst weefden ze hier linnen. Toen kwam er een tijd niets. Toen kwamen er jongens met lang haar en een sleutel die ze niet gekregen hadden.',
+  info:[
+   'Op deze plek stond de linnenfabriek <b>Van den Briel &amp; Verster</b>. Toen die leeg kwam te staan, kocht de gemeente het complex.',
+   'In 1970 kraakten jongeren het pand en begonnen er een open jongerencentrum. In <b>1971</b> ging het verder als de <b>Effenaar</b>. In de beginjaren draaide het om maatschappijkritiek; later werd het een van de grote poppodia van het land.',
+   'In het oude zaaltje, dat naar bier en sigaretten rook, speelden onder meer de Red Hot Chili Peppers en Bauhaus. In 2005 kwam op dezelfde plek de nieuwbouw van architectenbureau MVRDV: gestapelde dozen, met een zaal voor 1.300 en een voor 400 bezoekers.'],
+  puzzle:{type:'text', q:'In dat oude zaaltje stond ook ooit een Britse punkband die maar één studioalbum maakte. Tonnie schreef de naam achterstevoren op.', code:'SLOTSIP XES', accept:['sexpistols','thesexpistols'], show:'Sex Pistols',
+   hints:['Lees van rechts naar links.','De eerste drie letters zijn S, E, X.']},
+  after:'De Sex Pistols in een gekraakte linnenfabriek in Eindhoven.' },
+
+muur:{ name:'De fabrieksmuur en het Inkijkmuseum', short:'Fabrieksmuur', lat:51.44161, lng:5.48448, maps:'Inkijkmuseum Eindhoven',
+  year:1849, yearWhy:'linnenfabriek opgericht',
+  walk:'Vlak naast de Effenaar, bij Dommelstraat 2A, staat nog een stuk oude fabrieksmuur met een informatiebord, en een klein gebouwtje.',
+  tonnie:'Vóór de lamp was Eindhoven van het linnen, de sigaren en de lucifers. Deze muur weet dat nog.',
+  info:[
+   'De linnenfabriek van Van den Briel &amp; Verster werd opgericht in <b>1849</b>, ruim veertig jaar vóór Philips. Van het complex staat alleen dit nog overeind.',
+   'Het kleine gebouw was het <b>washuis</b> van de fabriek. Later was het onder meer fietsenstalling van de politie en hoorde het bij de Effenaar.',
+   'Sinds 2004 is het het <b>Inkijkmuseum</b>. Je gaat er niet naar binnen: je kijkt van buiten door de ramen naar wisselende tentoonstellingen.'],
+  puzzle:{type:'num', q:'Zoek op het informatiebord het bouwjaar van de muur. Hoeveel jaar bestond de fabriek toen al?', answer:39,
+   hints:['De fabriek is van 1849.','De muur is van 1888.']},
+  after:'Negenendertig jaar. Kijk ook even door de ramen van het washuis.' },
+
+silly:{ name:'De Silly Walks-tunnel', short:'Silly Walks', lat:51.44330, lng:5.48520, maps:'Silly Walks Tunnel Eindhoven',
+  year:2016, yearWhy:'tunnel geopend door John Cleese',
+  walk:'Volg het pad langs de Dommel naar het noorden. Het duikt onder het spoor door: de Dommeltunnel.',
+  tonnie:'Ik heb mijn hele leven netjes gelopen. Hier hoeft dat niet.',
+  info:[
+   'Deze fiets- en voetgangerstunnel verbindt de binnenstad met de campus van de TU/e. Hij is 130 meter lang.',
+   'In <b>april 2016</b> schilderden Niels van Swaemen en Kasper van Leek van Studio Giftig de muur vol met de loopjes uit de sketch <i>The Ministry of Silly Walks</i> van Monty Python.',
+   '<b>John Cleese</b> kwam de tunnel zelf openen. Er stonden honderden mensen. Hij vroeg ze of ze die dag echt niets beters te doen hadden.'],
+  puzzle:{type:'num', q:'Loop de tunnel door, en doe minstens tien passen als silly walk. Rekensom voor onderweg: de tunnel is 130 meter. Hoeveel plechtige passen van 65 centimeter heb je nodig tot de overkant?', answer:200,
+   hints:['130 meter is 13.000 centimeter.','13.000 : 65.']},
+  after:'Tweehonderd passen. De gemeente noemt dit soort plekken “blijmakers”.' },
+
+ath:{ name:'De kernreactor van de TU/e', short:'Kernreactor', lat:51.44620, lng:5.48700, maps:'Athene TU Eindhoven',
+  year:1973, yearWhy:'reactor definitief gesloten',
+  walk:'Na de tunnel loop je de campus op. Zoek het gebouw <b>Athene</b>, aan de zuidkant van de campus bij de gebouwen Helix en Matrix. Het staat op de campusborden.',
+  tonnie:'Ze zeiden dat het veilig was. Ik heb toch maar een straatje omgelopen.',
+  info:[
+   'De Technische Hogeschool Eindhoven, nu de TU/e, had een <b>eigen kernreactor</b>: ATHENE. Rector Posthumus wilde er vanaf 1960 een hebben voor onderwijs en onderzoek. Het ontwerp kwam van het Reactor Centrum Nederland in Petten.',
+   'De bouw begon in 1966 en begin 1969 draaide de reactor. Al anderhalf jaar later adviseerde de Wetenschappelijke Raad voor de Kernenergie om hem te sluiten: hij leverde te weinig op voor de wetenschap. Na <b>mei 1973</b> was het voorbij.',
+   'Het vermogen was heel laag en hij had kort gedraaid, dus er bleef vrijwel geen besmet materiaal achter. De anderhalve kilo hoogverrijkt uranium ging naar Mol in België. Het gebouw heet nog altijd Athene.'],
+  puzzle:{type:'num', q:'Een rekensom uit het reactorlokaal. Een bron straalt 1.600 eenheden. Elke 4 jaar halveert dat. Na hoeveel jaar is er nog 100 over?', answer:16,
+   hints:['1.600 → 800 → 400 → …','Je moet vier keer halveren. Vier keer 4 jaar.']},
+  after:'Zestien jaar. Kernonderzoek is niet weg van de campus: bij instituut DIFFER werken ze nu aan kernfusie.' },
+
+sta:{ name:'Het station en Anton Philips', short:'Station', lat:51.44260, lng:5.47930, maps:'Standbeeld Anton Philips Stationsplein Eindhoven',
+  year:1956, yearWhy:'het station geopend',
+  walk:'Loop via de Dommelstraat en de Stationsweg naar het Stationsplein. Ga voor het station staan, bij het standbeeld.',
+  walkFrom:{ath:'Loop terug door de tunnel en dan via de Dommelstraat en de Stationsweg naar het Stationsplein. Ga voor het station staan, bij het standbeeld.',
+            silly:'Loop terug en ga via de Dommelstraat en de Stationsweg naar het Stationsplein. Ga voor het station staan, bij het standbeeld.'},
+  tonnie:'Zie je het? De klok is de afstemschaal, de toren de luidspreker. Iedereen hier zweert dat het station een radio is.',
+  info:[
+   'Het station is van <b>1956</b> en ontworpen door Koen van der Gaast. Doe een paar stappen terug en het lijkt inderdaad op een oude Philips-radio.',
+   'Alleen: het klopt niet. Het radiomodel waar het station op lijkt, kwam pas jaren ná het ontwerp op de markt. Het is een hardnekkige en geliefde <b>stadsmythe</b>.',
+   'Het beeld is van <b>Anton Philips</b> (1874–1951), een cadeau van de gemeente voor zijn 75e verjaardag. Hij staat met zijn rug naar het station. Onder Anton begon Philips in 1927 met radio’s; vijf jaar later was het de grootste radiofabrikant ter wereld.'],
+  puzzle:{type:'text', morse:true, q:'Radio begon met morse. Dit is de laatste draad in Tonnies schrift. Welk woord staat er?', code:'·−··  ··  −·−·  ····  −', accept:['licht'], show:'LICHT',
+   hints:['Vijf letters. De laatste is één streep: de T.','Gebruik de morsetabel hieronder.']},
+  after:'Licht. Loop nu terug naar het 18 Septemberplein. Daar gaat de lampenkist open.' }
+};
+
+const ROUTES = {
+  p:{ label:'Proefronde', tijd:'± 15 minuten', word:'AAN', toon:'AAN', proef:true,
+      sub:'Drie plekken rond het plein: de Bijenkorf, de Blob en de Lichttoren.',
+      stops:['bk','blob','lt'] },
+  k:{ label:'Kort', tijd:'± 1 uur', word:'LICHTSTAD', toon:'LICHTSTAD',
+      sub:'De kern: Philips, de Markt, Stratumseind, de Effenaar en het station.',
+      stops:['bk','blob','lt','fab','frits','dyn','strat','eff','sta'] },
+  m:{ label:'Middel', tijd:'± 1,5 uur', word:'LICHTJESROUTE', toon:'LICHTJESROUTE',
+      sub:'Met het PSV-stadion, Gerard Philips, de Witte Dame en de Catharinakerk erbij.',
+      stops:['bk','blob','lt','ger','psv','wd','fab','frits','kerk','dyn','strat','eff','sta'] },
+  l:{ label:'Lang', tijd:'± 2 uur', word:'EINDHOVENLICHTSTAD', toon:'EINDHOVEN LICHTSTAD',
+      sub:'Alles: ook het DAF Museum, de oude fabrieksmuur, de Silly Walks-tunnel en de kernreactor op de TU/e.',
+      stops:['bk','blob','lt','ger','psv','wd','fab','frits','kerk','monu','dyn','strat','daf','eff','muur','silly','ath','sta'] }
+};
+
+/* ---------- hulpjes ---------- */
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+function dist(a,b){ const R=6371000, r=Math.PI/180, dLat=(b.lat-a.lat)*r, dLng=(b.lng-a.lng)*r;
+  const h=Math.sin(dLat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+function routeKm(key){ const ids=ROUTES[key].stops; let d=0; for(let i=1;i<ids.length;i++) d+=dist(STOPS[ids[i-1]],STOPS[ids[i]]);
+  d+=dist(STOPS[ids[ids.length-1]],STOPS.bk); return d*1.3/1000; }       // 1,3 = omlopen t.o.v. hemelsbreed
+function letters(key){ const ids=[...ROUTES[key].stops].sort((a,b)=>STOPS[a].year-STOPS[b].year); const m={}; ids.forEach((id,i)=>m[id]=ROUTES[key].word[i]); return {order:ids, map:m}; }
+
+/* ---------- toestand ---------- */
+const KEY='gloeidraad.v1';
+let S = { route:null, i:0, phase:'start', done:{}, hints:0, helped:0, t0:0, fin:0, miss:0 };
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ const o=JSON.parse(localStorage.getItem(KEY)); if(o && o.route && ROUTES[o.route]) S=Object.assign(S,o); }catch(e){} }
+const cur = () => STOPS[ROUTES[S.route].stops[S.i]];
+const curId = () => ROUTES[S.route].stops[S.i];
+
+/* ---------- gps (werkt alleen waar de browser het toestaat) ---------- */
+let pos=null, gpsOn=false;
+function startGps(){ if(gpsOn || !navigator.geolocation) return; gpsOn=true;
+  try{ navigator.geolocation.watchPosition(p=>{ pos={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy||0}; const el=$('#afst'); if(el) el.innerHTML=afstTxt(); redrawAll(); },
+    ()=>{ pos=null; }, {enableHighAccuracy:true, maximumAge:5000}); }catch(e){} }
+function afstTxt(){ if(!pos) return ''; const d=dist(pos,cur()); if(d>5000) return ''; return d<35 ? '<b style="color:var(--ok)">Je bent er (bijna).</b>' : 'Nog ongeveer <b>'+(Math.round(d/10)*10)+' meter</b> hemelsbreed.'; }
+
+/* ---------- weetjes: extra punten op de kaart, zonder opdracht ---------- */
+const WEETJES=[
+ {id:'w-pins', name:'Flying Pins', lat:51.44660, lng:5.47960, t:'Tien gele kegels en een bowlingbal, alsof iemand net een strike heeft gegooid. Het is een kunstwerk van Claes Oldenburg en Coosje van Bruggen uit 2000. Zij zagen in de lange, rechte Kennedylaan een bowlingbaan.'},
+ {id:'w-abbe', name:'Van Abbemuseum', lat:51.43430, lng:5.48190, t:'Museum voor moderne kunst, geopend in 1936. Het was een cadeau aan de stad van sigarenfabrikant Henri van Abbe. Eindhoven was vóór de lamp een sigarenstad.'},
+ {id:'w-vest', name:'Vestedatoren', lat:51.43800, lng:5.48270, t:'Woontoren van architect Jo Coenen uit 2006, 90 meter hoog. Van bovenaf heeft hij de vorm van een ruit, daardoor lijkt hij vanaf elke kant anders.'},
+ {id:'w-adm', name:'De Admirant', lat:51.44050, lng:5.47640, t:'De woontoren achter de Blob is ruim 100 meter hoog en was bij de oplevering in 2006 het hoogste gebouw van de stad.'},
+ {id:'w-pater', name:'Paterskerk', lat:51.43920, lng:5.48530, t:'Boven op de spits staat een Christusbeeld van vijf meter hoog. Eindhovenaren noemen hem Jezus Waaghals. Het oude klooster eromheen heet nu DomusDela.'},
+ {id:'w-fiets', name:'Onder het plein', lat:51.44185, lng:5.47730, t:'Onder het 18 Septemberplein ligt een fietsenstalling voor zo’n 1.700 fietsen. De schuine glazen ingangen op het plein zijn, net als de Blob, van architect Fuksas.'},
+ {id:'w-muziek', name:'Muziekgebouw Frits Philips', lat:51.43830, lng:5.47960, t:'De concertzaal van Eindhoven, sinds 1992, genoemd naar meneer Frits. Het restaurant heet ook zo: Meneer Frits.'},
+ {id:'w-dommel', name:'De Dommel', lat:51.44050, lng:5.48530, t:'Dit riviertje ontspringt in België, stroomt dwars door Eindhoven en komt bij Den Bosch uit. Het oude stadje lag precies waar de Dommel en de Gender bij elkaar kwamen.'},
+ {id:'w-tue', name:'TU/e', lat:51.44760, lng:5.48620, t:'In 1956 opgericht als Technische Hogeschool Eindhoven, de tweede technische hogeschool van Nederland. De campus ligt pal achter het station.'},
+ {id:'w-kanaal', name:'Eindhovens Kanaal', lat:51.43760, lng:5.49150, t:'Hier begint het Eindhovens Kanaal, in 1846 gegraven naar de Zuid-Willemsvaart. Voor Eindhoven was het de eerste goede verbinding met de rest van het land, nog vóór de trein.'}
+];
+const NAAM={bk:'Bijenkorf (start)',blob:'Blob',lt:'Lichttoren',ger:'Gerard Philips',psv:'Philips Stadion',wd:'Witte Dame',fab:'Eerste fabriek',frits:'Meneer Frits',
+ kerk:'Catharinakerk',monu:'Bevrijdingsmonument',dyn:'Dynamo',strat:'Stratumseind',daf:'DAF Museum',eff:'Effenaar',muur:'Fabrieksmuur',silly:'Silly Walks-tunnel',ath:'Kernreactor TU/e',sta:'Station'};
+function groep(id){ return ROUTES.k.stops.includes(id)?'k':ROUTES.m.stops.includes(id)?'m':'l'; }
+const GKLEUR={k:'#ffb84a',m:'#ff7fb0',l:'#6fc3ff'};
+
+/* ---------- echte kaart: OpenStreetMap-vectortegels via shared/tiles.js, anders getekend ---------- */
+const ORG={lat:51.4410, lon:5.4790}, KX=111320*Math.cos(ORG.lat*Math.PI/180), KY=110540;
+const mX=lng=>(lng-ORG.lon)*KX, mY=lat=>-(lat-ORG.lat)*KY;
+const RAIL=[[51.4426,5.4655],[51.4430,5.4740],[51.4432,5.4795],[51.4437,5.4850],[51.4446,5.4930]];
+const DOMMEL=[[51.4338,5.4816],[51.4352,5.4812],[51.4370,5.4838],[51.4398,5.4852],[51.4420,5.4853],[51.4440,5.4853],[51.4458,5.4842],[51.4478,5.4822]];
+const STREETS=[
+ ['Emmasingel',[[51.4416,5.4753],[51.4398,5.4751],[51.4386,5.4756],[51.4376,5.4762]]],
+ ['Mathildelaan',[[51.4416,5.4753],[51.4421,5.4705],[51.4424,5.4662]]],
+ ['Demer',[[51.4418,5.4774],[51.4392,5.4782]]],
+ ['Rechtestraat',[[51.4392,5.4782],[51.4372,5.4794]]],
+ ['Stratumseind',[[51.4370,5.4800],[51.4347,5.4809]]],
+ ['Vestdijk',[[51.4424,5.4812],[51.4398,5.4815],[51.4372,5.4820],[51.4350,5.4824]]],
+ ['Stationsplein',[[51.4424,5.4770],[51.4424,5.4812]]],
+ ['Dommelstraat',[[51.4424,5.4812],[51.4419,5.4834],[51.4416,5.4847]]],
+ ['Ten Hagestraat',[[51.4386,5.4817],[51.4384,5.4862]]],
+ ['Tongelresestraat',[[51.4384,5.4862],[51.4374,5.4885],[51.4371,5.4925]]],
+ ['Wal',[[51.4376,5.4762],[51.4364,5.4776],[51.4352,5.4800]]],
+ ['Kennedylaan',[[51.4441,5.4800],[51.4478,5.4801]]]
+];
+const flat=a=>{ const o=[]; a.forEach(p=>o.push(mX(p[1]),mY(p[0]))); return o; };
+const DRAWN={ areas:[], roads:STREETS.map(st=>({p:flat(st[1]),w:3,n:st[0]})), river:flat(DOMMEL) };
+let WORLD=null, worldState='idle';           // idle · loading · ok · fail
+const LIVE=new Set();                         // kaarten die nu op het scherm staan
+function redrawAll(){ LIVE.forEach(m=>{ if(document.body.contains(m.cv)) m.draw(); else LIVE.delete(m); }); }
+function prepWorld(w){
+  const areas=w.ways.filter(x=>x.w==='water'||x.w==='park'), roads=w.ways.filter(x=>typeof x.w==='number').sort((a,b)=>a.w-b.w);
+  roads.forEach(r=>{ let L=0; for(let k=0;k+3<r.p.length;k+=2) L+=Math.hypot(r.p[k+2]-r.p[k],r.p[k+3]-r.p[k+1]); r.len=L; });
+  return {areas, roads, river:null};
+}
+function loadWorld(){
+  if(worldState!=='idle') return;
+  if(!window.MW || !MW.Tiles || !window.fetch){ worldState='fail'; return; }
+  worldState='loading';
+  MW.Tiles.world({lat:ORG.lat, lon:ORG.lon, R:750, ms:12000}).then(w=>{ if(!w || !w.ways || w.ways.length<20) throw new Error('leeg'); WORLD=prepWorld(w); worldState='ok'; redrawAll(); })
+    .catch(()=>{ worldState='fail'; redrawAll(); });
+}
+/* makeMap(host,{h,focus}) – h: hoogte (css), focus: 'route' | 'cur' | 'all' */
+function makeMap(host, opt){
+  opt=opt||{}; loadWorld(); const RT=()=>opt.noRoute?null:S.route;
+  host.innerHTML='<div class="mapbox" style="height:'+(opt.h||'52vh')+'"><canvas aria-label="Plattegrond van de binnenstad van Eindhoven met de plekken van de wandeling"></canvas>'+
+    '<div class="mapbtns"><button data-z="in" aria-label="Inzoomen">+</button><button data-z="out" aria-label="Uitzoomen">−</button><button data-z="fit" aria-label="Hele route">⤢</button><button data-z="me" aria-label="Naar mijn plek">◎</button></div></div>';
+  const box=host.firstChild, cv=box.querySelector('canvas'), cx=cv.getContext('2d');
+  let cw=0, ch=0, dpr=1, V={s:.3,x:0,y:0}, raf=0;
+  const sx=x=>(x-V.x)*V.s+cw/2, sy=y=>(y-V.y)*V.s+ch/2;
+  const routeIds=()=> RT() ? ROUTES[RT()].stops : Object.keys(STOPS);
+  function size(){ dpr=window.devicePixelRatio||1; cw=box.clientWidth; ch=box.clientHeight; cv.width=Math.round(cw*dpr); cv.height=Math.round(ch*dpr); }
+  function fit(pts, pad){ if(!pts.length) return; const xs=pts.map(p=>mX(p.lng)), ys=pts.map(p=>mY(p.lat)); pad=pad||46;
+    const x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+    V.s=Math.max(.12,Math.min(1.6, Math.min((cw-2*pad-44)/Math.max(60,x1-x0),(ch-2*pad)/Math.max(60,y1-y0)))); V.x=(x0+x1)/2+22/V.s; V.y=(y0+y1)/2; }
+  function refit(){ const ids=routeIds();
+    if(opt.focus==='cur' && RT()){ const c=cur(), prev=S.i>0?STOPS[ids[S.i-1]]:(pos&&dist(pos,c)<2500?pos:c); fit([c,prev],70); if(V.s>1.1) V.s=1.1; }
+    else if(opt.focus==='all') fit(Object.values(STOPS));
+    else fit(ids.map(id=>STOPS[id])); }
+  function poly(p){ cx.beginPath(); for(let k=0;k<p.length;k+=2){ const X=sx(p[k]), Y=sy(p[k+1]); k?cx.lineTo(X,Y):cx.moveTo(X,Y); } }
+  function label(txt,x,y,font,fill,align){ cx.font=font; cx.textAlign=align||'center'; cx.lineJoin='round'; cx.lineWidth=3.5; cx.strokeStyle='#141826'; cx.strokeText(txt,x,y); cx.fillStyle=fill; cx.fillText(txt,x,y); }
+  function draw(){ raf=0; if(!cw) size(); if(!cw) return;
+    const Wd=WORLD||DRAWN, real=!!WORLD;
+    cx.setTransform(dpr,0,0,dpr,0,0); cx.fillStyle='#141826'; cx.fillRect(0,0,cw,ch); cx.lineCap='round'; cx.lineJoin='round';
+    Wd.areas.forEach(a=>{ poly(a.p); cx.closePath(); cx.fillStyle=a.w==='water'?'#1b4460':'#1c3528'; cx.fill(); });
+    if(Wd.river){ poly(Wd.river); cx.strokeStyle='#1b4460'; cx.lineWidth=Math.max(4,14*V.s); cx.stroke(); }
+    poly(flat(RAIL)); cx.strokeStyle='#6a6f85'; cx.lineWidth=Math.max(2,9*V.s); cx.stroke(); cx.strokeStyle='#141826'; cx.lineWidth=Math.max(1,4*V.s); cx.setLineDash([7,7]); cx.stroke(); cx.setLineDash([]);
+    // straten: eerst de rand, dan de vulling, zodat kruisingen in elkaar lopen
+    const WID={1:2.2,2:6.5,3:11}, COL={1:'#39405a',2:'#4a5270',3:'#687196'};
+    [1,2,3].forEach(w=>{ if(w===1 && V.s<.3) return; cx.strokeStyle=COL[w]; cx.lineWidth=Math.max(w===1?1:1.6, WID[w]*V.s);
+      Wd.roads.forEach(r=>{ if(r.w!==w) return; poly(r.p); cx.stroke(); }); });
+    // straatnamen
+    if(V.s>=.3){ const used=[], seen={};
+      const cand=Wd.roads.filter(r=>r.n && r.w>=(V.s>=.6?2:3)).sort((a,b)=>(b.w-a.w)||((b.len||0)-(a.len||0)));
+      cx.font='500 11px system-ui,sans-serif';
+      cand.forEach(r=>{ const n=r.p.length/2; if(n<2) return; const k=Math.max(0,Math.min(n-2,Math.floor(n/2)-1))*2;
+        const ax=sx(r.p[k]), ay=sy(r.p[k+1]), bx=sx(r.p[k+2]), by=sy(r.p[k+3]), mx=(ax+bx)/2, my=(ay+by)/2;
+        if(mx<20||my<14||mx>cw-20||my>ch-14) return;
+        const tw=cx.measureText(r.n).width; if((r.len||9999)*V.s<tw*.9) return;
+        const key=r.n+'|'+Math.round(mx/190)+'|'+Math.round(my/190); if(seen[key]) return;
+        for(const u of used) if(Math.abs(u[0]-mx)<(u[2]+tw)/2+6 && Math.abs(u[1]-my)<15) return;
+        seen[key]=1; used.push([mx,my,tw]);
+        let ang=Math.atan2(by-ay,bx-ax); if(ang>Math.PI/2) ang-=Math.PI; if(ang<-Math.PI/2) ang+=Math.PI;
+        cx.save(); cx.translate(mx,my); cx.rotate(ang); label(r.n,0,4,'500 11px system-ui,sans-serif','#b9bfd4'); cx.restore(); }); }
+    // route (hemelsbreed, dun) alleen in een gekozen wandeling
+    const ids=routeIds();
+    if(RT()){ cx.beginPath(); ids.concat(['bk']).forEach((id,i)=>{ const p=STOPS[id]; i?cx.lineTo(sx(mX(p.lng)),sy(mY(p.lat))):cx.moveTo(sx(mX(p.lng)),sy(mY(p.lat))); });
+      cx.strokeStyle='rgba(255,184,74,.38)'; cx.lineWidth=2; cx.setLineDash([2,7]); cx.stroke(); cx.setLineDash([]); }
+    // weetjes
+    WEETJES.forEach(w=>{ const X=sx(mX(w.lng)), Y=sy(mY(w.lat)); cx.beginPath(); cx.arc(X,Y,8,0,7); cx.fillStyle='#16223a'; cx.fill(); cx.strokeStyle='#9fd0ff'; cx.lineWidth=1.6; cx.stroke();
+      cx.font='italic 700 11px Georgia,serif'; cx.textAlign='center'; cx.fillStyle='#cfe6ff'; cx.fillText('i',X,Y+4);
+      if(V.s>=.75) label(w.name,X,Y+21,'500 10.5px system-ui,sans-serif','#9fd0ff'); });
+    // plekken
+    const walking=RT() && !['start','finale','end','back'].includes(S.phase);
+    const pr=Math.max(7.5,Math.min(12,6+V.s*11)), boxes=[], todo=[];
+    Object.keys(STOPS).forEach(id=>{ const p=STOPS[id], X=sx(mX(p.lng)), Y=sy(mY(p.lat)), inR=ids.includes(id), n=ids.indexOf(id), done=RT()&&S.done[id], isCur=walking&&ids[S.i]===id;
+      const col=RT()?'#ffb84a':GKLEUR[groep(id)];
+      cx.globalAlpha=inR?1:.35;
+      if(isCur){ cx.beginPath(); cx.arc(X,Y,pr+7,0,7); cx.fillStyle='rgba(255,255,255,.14)'; cx.fill(); cx.strokeStyle='#fff'; cx.lineWidth=2.5; cx.stroke(); }
+      cx.beginPath(); cx.arc(X,Y,pr,0,7); cx.fillStyle=(done||!RT())?col:'#1f2333'; cx.fill(); cx.strokeStyle=col; cx.lineWidth=2.5; cx.stroke();
+      cx.font='700 '+(pr>10?12:10)+'px system-ui,sans-serif'; cx.textAlign='center'; cx.fillStyle=(done||!RT())?'#2a1700':'#f3ecdc'; cx.fillText(RT()&&inR?String(n+1):(id==='bk'?'★':''),X,Y+(pr>10?4.5:3.5));
+      cx.globalAlpha=1;
+      if(inR) todo.push({id:id,X:X,Y:Y,pri:isCur?0:(id==='bk'?1:2)}); });
+    // namen: de huidige plek altijd, de rest alleen waar ruimte is
+    cx.font='700 12px system-ui,sans-serif';
+    Object.values(STOPS).concat(WEETJES).forEach(q=>boxes.push([sx(mX(q.lng))-pr,sy(mY(q.lat))-pr,2*pr,2*pr]));
+    todo.sort((a,b)=>a.pri-b.pri).forEach(t=>{ const tw=cx.measureText(NAAM[t.id]).width, bx=t.X-tw/2-3, by=t.Y-pr-19;
+      if(t.pri>0){ if(bx<2||bx+tw+6>cw-2||by<2) return; for(const q of boxes) if(bx<q[0]+q[2] && bx+tw+6>q[0] && by<q[1]+q[3] && by+16>q[1]) return; }
+      boxes.push([bx,by,tw+6,16]); label(NAAM[t.id],t.X,t.Y-pr-6,'700 12px system-ui,sans-serif','#fff'); });
+    // jij
+    if(pos){ const X=sx(mX(pos.lng)), Y=sy(mY(pos.lat)); if(pos.acc){ cx.beginPath(); cx.arc(X,Y,Math.min(120,pos.acc*V.s),0,7); cx.fillStyle='rgba(74,163,255,.14)'; cx.fill(); }
+      cx.beginPath(); cx.arc(X,Y,7,0,7); cx.fillStyle='#4aa3ff'; cx.fill(); cx.strokeStyle='#fff'; cx.lineWidth=2; cx.stroke(); }
+    // schaal, noorden, bron
+    const m=[50,100,200,500].find(v=>v*V.s>=46)||500; cx.strokeStyle='#cfc9b8'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(10,ch-12); cx.lineTo(10+m*V.s,ch-12); cx.stroke();
+    cx.font='500 10px system-ui,sans-serif'; cx.textAlign='left'; cx.fillStyle='#cfc9b8'; cx.fillText(m+' m',10,ch-17); cx.fillText('N ↑',10,16);
+    cx.textAlign='right'; cx.globalAlpha=.75;
+    cx.fillText(real ? MW.Tiles.attr : worldState==='loading' ? 'Kaart laden…' : 'Getekende plattegrond (kaart niet geladen)', cw-8, ch-6); cx.globalAlpha=1;
+  }
+  const ask=()=>{ if(!raf) raf=requestAnimationFrame(draw); };
+  // slepen, knijpen, tikken
+  const pts=new Map(); let moved=false, pinch=0;
+  cv.addEventListener('pointerdown',e=>{ pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); moved=false; try{cv.setPointerCapture(e.pointerId)}catch(_){ } if(pts.size===2){ const a=[...pts.values()]; pinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); } });
+  cv.addEventListener('pointermove',e=>{ const p=pts.get(e.pointerId); if(!p) return; const dx=e.clientX-p.x, dy=e.clientY-p.y;
+    if(pts.size===1){ if(!moved && Math.hypot(dx,dy)<7) return; moved=true; V.x-=dx/V.s; V.y-=dy/V.s; p.x=e.clientX; p.y=e.clientY; ask(); }
+    else if(pts.size===2){ p.x=e.clientX; p.y=e.clientY; moved=true; const a=[...pts.values()], d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); if(pinch>0){ V.s=Math.max(.1,Math.min(4,V.s*d/pinch)); } pinch=d; ask(); } });
+  const up=e=>{ const had=pts.has(e.pointerId); pts.delete(e.pointerId); if(pts.size<2) pinch=0; if(!had || moved || pts.size) return;
+    const b=cv.getBoundingClientRect(), px=e.clientX-b.left, py=e.clientY-b.top;
+    if(MOVE){ const id=MOVE; MOVE=null; const lng=ORG.lon+((px-cw/2)/V.s+V.x)/KX, lat=ORG.lat-((py-ch/2)/V.s+V.y)/KY; setPin(id,lat,lng); ask(); return; }
+    let best=null, bd=26;
+    Object.keys(STOPS).forEach(id=>{ const d=Math.hypot(sx(mX(STOPS[id].lng))-px, sy(mY(STOPS[id].lat))-py); if(d<bd){ bd=d; best={stop:id}; } });
+    WEETJES.forEach(w=>{ const d=Math.hypot(sx(mX(w.lng))-px, sy(mY(w.lat))-py); if(d<bd-4){ bd=d; best={w:w}; } });
+    if(best) tapPoint(best); };
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',e=>{ pts.delete(e.pointerId); pinch=0; });
+  cv.addEventListener('wheel',e=>{ e.preventDefault(); V.s=Math.max(.1,Math.min(4,V.s*(e.deltaY<0?1.2:1/1.2))); ask(); },{passive:false});
+  box.querySelectorAll('.mapbtns button').forEach(b=>b.onclick=()=>{ const z=b.dataset.z;
+    if(z==='in') V.s=Math.min(4,V.s*1.4); if(z==='out') V.s=Math.max(.1,V.s/1.4); if(z==='fit') fit(routeIds().map(id=>STOPS[id]));
+    if(z==='me'){ if(pos){ V.x=mX(pos.lng); V.y=mY(pos.lat); if(V.s<.6) V.s=.8; } else toast('Je locatie is hier niet beschikbaar.'); } ask(); });
+  const api={cv:cv, draw:ask};
+  size(); refit(); draw(); LIVE.add(api);
+  if(window.ResizeObserver) new ResizeObserver(()=>{ const w=box.clientWidth,h=box.clientHeight; if(w&&h&&(w!==cw||h!==ch)){ const first=!cw; size(); if(first) refit(); ask(); } }).observe(box);
+  return api;
+}
+function kleurLegenda(){ return '<p class="small" style="margin:.5em 0 0"><span style="color:'+GKLEUR.k+'">●</span> in elke wandeling &nbsp; <span style="color:'+GKLEUR.m+'">●</span> erbij vanaf 1,5 uur &nbsp; <span style="color:'+GKLEUR.l+'">●</span> alleen in 2 uur &nbsp; <span style="color:#9fd0ff">ⓘ</span> weetje</p><p class="small dim" style="margin:.2em 0 0">Sleep om te schuiven, knijp of gebruik + en − om te zoomen. Tik op een punt voor meer.</p>'; }
+function toast(t){ let e=$('#toast'); if(!e){ e=document.createElement('div'); e.id='toast'; document.body.appendChild(e); } e.textContent=t; e.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>e.style.display='none',2600); }
+function tapPoint(b){
+  if(b.w){ openSheet('<p class="kicker" style="color:#9fd0ff">Weetje</p><h2>'+b.w.name+'</h2><p>'+b.w.t+'</p><p class="small dim">Geen opdracht hier. Loop er gerust langs als het op je route ligt.</p>'); return; }
+  const id=b.stop, s=STOPS[id], inR=S.route && ROUTES[S.route].stops.includes(id), done=S.route && S.done[id];
+  let h='<p class="kicker">'+(done?'Lamp aan · '+s.year : inR?'Plek '+(ROUTES[S.route].stops.indexOf(id)+1)+' van jouw wandeling' : S.route?'Niet in deze wandeling':'Plek van de wandeling')+'</p><h2>'+s.name+'</h2>';
+  if(done || !S.route) h+='<ul class="facts">'+s.info.map(t=>'<li>'+t+'</li>').join('')+'</ul>';
+  else h+='<div class="quote">“'+s.tonnie+'”<small>UIT HET SCHRIFT VAN TONNIE</small></div><p class="small dim">Het hele verhaal en de opdracht krijg je als je er bent.</p>';
+  h+='<a class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>';
+  if(TEST) h+='<button class="btn ghost" id="verpl">Test: speld verplaatsen</button>';
+  openSheet(h);
+  if(TEST) $('#verpl').onclick=()=>{ sheet.style.display='none'; MOVE=id; toast('Tik op de kaart waar “'+s.short+'” moet staan.'); };
+}
+/* ---------- testhulp: alleen op github.io / lokaal, uit met ?live ---------- */
+const TEST=(/github\.io$/.test(location.hostname) || /^(localhost|127\.0\.0\.1|)$/.test(location.hostname)) && !/[?&]live\b/.test(location.search);
+let MOVE=null;
+const PINKEY='gloeidraad.pins';
+function pins(){ try{ return JSON.parse(localStorage.getItem(PINKEY))||{}; }catch(e){ return {}; } }
+function setPin(id,lat,lng){ const p=pins(); p[id]=[+lat.toFixed(5),+lng.toFixed(5)]; try{ localStorage.setItem(PINKEY,JSON.stringify(p)); }catch(e){} STOPS[id].lat=p[id][0]; STOPS[id].lng=p[id][1]; toast(STOPS[id].short+' verplaatst. De lijst staat in het menu.'); redrawAll(); }
+if(TEST){ const p=pins(); Object.keys(p).forEach(id=>{ if(STOPS[id]){ STOPS[id].lat=p[id][0]; STOPS[id].lng=p[id][1]; } }); }
+
+function legend(){ return '<ol class="small dim" style="padding-left:1.4em;columns:2;margin:.6em 0 0">'+ROUTES[S.route].stops.map(id=>'<li'+(S.done[id]?' style="color:var(--amber)"':'')+'>'+STOPS[id].short+'</li>').join('')+'</ol>'; }
+
+/* ---------- schermen ---------- */
+const BULB='<svg class="bulb" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-11 0-19 8-19 18 0 7 4 12 8 16 2 2 3 4 3 7h16c0-3 1-5 3-7 4-4 8-9 8-16C51 14 43 6 32 6z" fill="#ffd98a" stroke="#ffb84a" stroke-width="2"/><path d="M25 30l4 8 3-7 3 7 4-8" fill="none" stroke="#b8580c" stroke-width="2" stroke-linejoin="round"/><rect x="24" y="48" width="16" height="4" rx="1.5" fill="#9aa0b5"/><rect x="25" y="53" width="14" height="4" rx="1.5" fill="#7c8298"/><rect x="28" y="58" width="8" height="3" rx="1.5" fill="#5d6278"/></svg>';
+
+function dots(){ const ids=ROUTES[S.route].stops; return '<div class="dots" aria-label="'+Object.keys(S.done).length+' van '+ids.length+' lampen aan">'+ids.map((id,i)=>'<span class="dot'+(S.done[id]?' on':'')+(i===S.i?' cur':'')+'"></span>').join('')+'</div>'; }
+function head(){ return '<div class="top"><span class="kicker">Draad '+(S.i+1)+' van '+ROUTES[S.route].stops.length+'</span>'+dots()+'</div>'; }
+
+function render(){
+  window.scrollTo(0,0);
+  $('#bar').style.display = (S.route && S.phase!=='start') ? 'flex' : 'none';
+  ({start:vStart, intro:vIntro, walk:vWalk, info:vInfo, puzzle:vPuzzle, after:vAfter, back:vBack, finale:vFinale, end:vEnd})[S.phase]();
+  save();
+}
+
+function vStart(){
+  const resume = S.route && S.phase!=='start';
+  app.innerHTML = '<img class="hero" src="img/hero.webp" alt="" onerror="this.remove()">'+BULB+'<p class="kicker" style="text-align:center">Stadswandeling Eindhoven</p><h1 style="text-align:center">De Gloeidraad</h1>'+
+  '<p style="text-align:center" class="dim">Een puzzelwandeling door de Lichtstad. Start en finish: de Bijenkorf op het 18 Septemberplein.</p>'+
+  '<div class="card"><p>In de Lichttoren brandden vroeger dag en nacht lampen, om te meten hoe lang ze het volhielden. Tonnie was een van de mensen die daarbij zat en noteerde wanneer er een uitging.</p>'+
+  '<p>Hij liet een schrift na. Daarin staat een route door de stad, met op elke plek een <b>draad</b>: een raadsel dat je alleen daar oplost. Elke draad doet een lamp branden. Met alle lampen aan gaat op het plein zijn lampenkist open.</p>'+
+  '<p class="small dim">Tonnie en zijn schrift zijn verzonnen. Alles wat je onderweg over de stad leest, is echt gebeurd.</p></div>'+
+  (resume ? '<button class="btn" id="go">Verder waar je was ('+ROUTES[S.route].label.toLowerCase()+', draad '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button>' : '')+
+  '<h3 style="margin-top:22px">Kies je wandeling</h3>'+
+  ['k','m','l'].map(k=>{ const r=ROUTES[k]; return '<button class="variant" data-k="'+k+'"><b>'+r.label+' · '+r.tijd+'</b><span>'+r.stops.length+' plekken · ongeveer '+routeKm(k).toFixed(1).replace('.',',')+' km · '+r.sub+'</span></button>'; }).join('')+
+  '<h3 style="margin-top:22px">Eerst proberen</h3><button class="variant" data-k="p"><b>Proefronde · ± 15 minuten</b><span>Drie plekken rond het 18 Septemberplein, met een kleine finale. Kan ook vanaf de bank, om te zien hoe het werkt.</span></button>'+
+  '<h3 style="margin-top:22px">Plattegrond: alle plekken</h3><div id="mapA"></div>'+kleurLegenda()+'<button class="btn ghost" id="groot">Plattegrond groot bekijken</button>'+
+  '<p class="small dim">Voor volwassenen en oudere studenten. Alleen of met een groepje op één telefoon. De tijden zijn een richtlijn: wie overal blijft kijken, doet er langer over. Neem een opgeladen telefoon mee.</p>';
+  if(resume) $('#go').onclick=()=>render();
+  $('#groot').onclick=()=>openPlattegrond(true);
+  makeMap($('#mapA'),{h:'48vh',focus:'all',noRoute:true});
+  app.querySelectorAll('.variant').forEach(b=>b.onclick=()=>{ S={route:b.dataset.k,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); });
+}
+
+function vIntro(){
+  const r=ROUTES[S.route];
+  app.innerHTML='<p class="kicker">'+r.label+' · '+r.tijd+'</p><h2>Zo werkt het</h2>'+
+  '<div class="card"><ul class="facts"><li>Je loopt van plek naar plek. Op de kaart zie je waar je heen moet en waar je zelf bent; de knop <b>Open in Maps</b> wijst de weg als je twijfelt.</li>'+
+  '<li>De blauwe rondjes met een <b>i</b> zijn weetjes: tik erop als je erlangs komt.</li>'+
+  (ROUTES[S.route].proef ? '<li>Dit is de proefronde. Je hoeft er niet echt te staan: tik gewoon op <b>Ik ben er</b>.</li>' : '')+
+  '<li>Op elke plek lees je eerst wat daar gebeurd is. Daarna volgt één opdracht. Soms moet je rekenen, soms kijken, soms een code kraken.</li>'+
+  '<li>Zit je vast, dan zijn er twee hints. Daarna mag je de oplossing laten zien. Je loopt nooit vast.</li>'+
+  '<li>Elke opgeloste draad geeft een lamp met een <b>jaartal</b>. Die komen in je schrift (onderaan). Onthoud ze een beetje: aan het eind heb je ze nodig.</li></ul></div>'+
+  '<div id="mapA"></div>'+legend()+
+  '<button class="btn" id="go">Begin bij de Bijenkorf</button><button class="btn ghost" id="terug">Andere wandeling kiezen</button>';
+  makeMap($('#mapA'),{h:'50vh',focus:'route'});
+  $('#go').onclick=()=>{ S.phase='walk'; startGps(); render(); };
+  $('#terug').onclick=()=>{ S.phase='start'; S.route=null; render(); };
+}
+
+function vWalk(){
+  const s=cur(), ids=ROUTES[S.route].stops, prev=S.i>0?ids[S.i-1]:null;
+  const txt=(s.walkFrom && prev && s.walkFrom[prev]) || s.walk;
+  startGps();
+  app.innerHTML=head()+'<h2>'+(S.i===0?'Start: ':'Naar: ')+s.name+'</h2><p>'+txt+'</p><p class="small" id="afst">'+afstTxt()+'</p>'+
+  '<div id="mapA"></div>'+
+  '<button class="btn" id="go">Ik ben er</button>'+
+  '<button class="btn ghost" id="plat">Hele plattegrond</button>'+
+  '<a class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>';
+  makeMap($('#mapA'),{h:'50vh',focus:'cur'});
+  $('#go').onclick=()=>{ S.phase='info'; render(); };
+  $('#plat').onclick=()=>openPlattegrond();
+}
+
+function vInfo(){
+  const s=cur();
+  app.innerHTML=head()+'<h2>'+s.name+'</h2><img class="pic" src="img/'+curId()+'.webp" alt="" onerror="this.remove()"><div class="quote"><img class="ava" src="img/tonnie.webp" alt="" onerror="this.remove()">“'+s.tonnie+'”<small>UIT HET SCHRIFT VAN TONNIE</small></div>'+
+  '<div class="card"><ul class="facts">'+s.info.map(t=>'<li>'+t+'</li>').join('')+'</ul></div><button class="btn" id="go">Naar de opdracht</button>';
+  $('#go').onclick=()=>{ S.phase='puzzle'; render(); };
+}
+
+let hintN=0, grid=null;
+function vPuzzle(){
+  const s=cur(), p=s.puzzle; hintN=0;
+  let body='';
+  if(p.code) body+='<div class="code">'+p.code+'</div>';
+  if(p.type==='num') body+='<input class="ans" id="ans" inputmode="numeric" autocomplete="off" placeholder="Getal" aria-label="Jouw antwoord">';
+  if(p.type==='text') body+='<input class="ans" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Jouw antwoord" aria-label="Jouw antwoord">';
+  if(p.type==='choice') body+=p.options.map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('');
+  if(p.type==='lights') body+='<div class="grid" id="grid"></div>';
+  app.innerHTML=head()+'<p class="kicker">Opdracht · '+s.short+'</p><p class="q">'+p.q+'</p>'+body+
+   (p.type==='num'||p.type==='text' ? '<button class="btn" id="chk">Controleer</button>' : '')+
+   '<div class="fb" id="fb" aria-live="polite"></div><div id="hints"></div>'+
+   '<button class="btn ghost sm" id="hint">Hint</button><button class="btn ghost sm" id="lees">Lees het verhaal nog eens</button>'+(TEST?'<button class="btn ghost sm testbtn" id="skip">Test ⏭ overslaan</button>':'');
+  if(TEST) $('#skip').onclick=()=>solved(true);
+  $('#lees').onclick=()=>{ S.phase='info'; render(); };
+  $('#hint').onclick=()=>giveHint(p);
+  if(p.type==='num'||p.type==='text'){
+    const chk=()=>{ const v=$('#ans').value.trim(); if(!v) return;
+      const ok = p.type==='num' ? (parseFloat(v.replace(',','.'))===p.answer) : p.accept.includes(norm(v));
+      ok ? solved() : wrong(); };
+    $('#chk').onclick=chk; $('#ans').onkeydown=e=>{ if(e.key==='Enter') chk(); };
+  }
+  if(p.type==='choice') app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(+b.dataset.i===p.correct) solved(); else { b.classList.add('wrong'); b.disabled=true; wrong(); } });
+  if(p.type==='lights'){ grid=[1,1,1,1,1,1,1,1,1]; [0,4,8,5].forEach(press); if(grid.every(x=>x)) press(1); drawGrid(); }
+}
+function press(i){ const r=Math.floor(i/3), c=i%3; [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([a,b])=>{ if(a>=0&&a<3&&b>=0&&b<3) grid[a*3+b]^=1; }); }
+function drawGrid(){ const g=$('#grid'); g.innerHTML=grid.map((x,i)=>'<button class="cell'+(x?' on':'')+'" data-i="'+i+'" aria-label="Lamp '+(i+1)+(x?' aan':' uit')+'"></button>').join('');
+  g.querySelectorAll('.cell').forEach(b=>b.onclick=()=>{ press(+b.dataset.i); drawGrid(); if(grid.every(x=>x)) setTimeout(solved,450); }); }
+function wrong(){ const f=$('#fb'); f.className='fb bad'; f.textContent=['Nog niet. Kijk nog eens goed.','Dat is het niet. Er is een hint als je wilt.','Bijna, of juist niet. Probeer het opnieuw.'][Math.floor(Math.random()*3)]; }
+function giveHint(p){
+  const h=$('#hints');
+  if(hintN<p.hints.length){ h.insertAdjacentHTML('beforeend','<div class="hint">💡 '+p.hints[hintN]+'</div>'); hintN++; S.hints++; save();
+    if(hintN===p.hints.length){
+      if(p.cipher) h.insertAdjacentHTML('beforeend',cipherTable(p.cipher));
+      if(p.morse) h.insertAdjacentHTML('beforeend',morseTable());
+      $('#hint').textContent = p.type==='lights' ? 'Los de werkbank op' : 'Toon de oplossing';
+    }
+  } else { S.helped++; solved(true); }
+}
+function cipherTable(n){ const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ'; return '<div class="tbl">'+[...A].map((c,i)=>'<div><b>'+c+'</b>'+A[(i+n)%26]+'</div>').join('')+'</div><p class="small dim">Boven: de echte letter. Onder: Tonnies codeletter.</p>'; }
+function morseTable(){ const M={A:'·−',B:'−···',C:'−·−·',D:'−··',E:'·',F:'··−·',G:'−−·',H:'····',I:'··',J:'·−−−',K:'−·−',L:'·−··',M:'−−',N:'−·',O:'−−−',P:'·−−·',Q:'−−·−',R:'·−·',S:'···',T:'−',U:'··−',V:'···−',W:'·−−',X:'−··−',Y:'−·−−',Z:'−−··'};
+  return '<div class="morse">'+Object.keys(M).map(k=>'<div><b style="color:var(--amber)">'+k+'</b> '+M[k]+'</div>').join('')+'</div>'; }
+function solved(help){ S.done[curId()]=help?2:1; S.phase='after'; render(); }
+
+function vAfter(){
+  const s=cur(), p=s.puzzle, id=curId(), last=S.i===ROUTES[S.route].stops.length-1;
+  const antw = p.type==='num' ? p.answer : p.type==='choice' ? p.options[p.correct] : p.type==='text' ? p.show : 'Alle lampen aan';
+  app.innerHTML=head()+'<p class="kicker" style="color:var(--ok)">'+(S.done[id]===2?'Opgelost met hulp':'Draad gevonden')+'</p><h2>'+antw+'</h2><p>'+s.after+'</p>'+
+  '<div class="lamp"><span class="yr">'+s.year+'</span><span><b>'+s.short+'</b><br><span class="small dim">'+s.yearWhy+' · staat in je schrift</span></span></div>'+
+  '<button class="btn" id="go">'+(last?'Terug naar het plein':'Loop verder')+'</button>';
+  $('#go').onclick=()=>{ if(last){ S.phase='back'; } else { S.i++; S.phase='walk'; } render(); };
+}
+
+function vBack(){
+  app.innerHTML='<p class="kicker">Alle lampen branden</p><h2>Terug naar het 18 Septemberplein</h2><p>Loop terug naar het plein voor de Bijenkorf, waar je begon. Daar ligt Tonnies lampenkist.</p>'+
+  '<div id="mapA"></div><button class="btn" id="go">Ik sta op het plein</button>';
+  makeMap($('#mapA'),{h:'46vh',focus:'route'});
+  $('#go').onclick=()=>{ S.phase='finale'; S.fin=0; render(); };
+}
+
+function vFinale(){
+  const L=letters(S.route), r=ROUTES[S.route];
+  let k=0; const slots=[...r.toon].map(ch=>{ if(ch===' ') return '<span class="slot gap"></span>'; const filled=k<S.fin; const out='<span class="slot">'+(filled?r.word[k]:'')+'</span>'; k++; return out; }).join('');
+  const rest=L.order.slice(S.fin);
+  const shuffled=[...rest].sort((a,b)=>(STOPS[a].name.length*7+STOPS[a].year)%13-(STOPS[b].name.length*7+STOPS[b].year)%13 || a.localeCompare(b));
+  app.innerHTML='<img class="pic" src="img/kist-dicht.webp" alt="" onerror="this.remove()"><p class="kicker">De lampenkist</p><h2>Zet de lampen in de tijd</h2>'+
+  '<p>Op het deksel zit een rij fittingen. Tonnie schreef erbij: <i>“De oudste eerst.”</i> Tik de plekken aan in de volgorde van hun jaartal, van vroeg naar laat. Elke goede lamp geeft een letter.</p>'+
+  '<div class="word" aria-live="polite">'+slots+'</div><div class="chips">'+shuffled.map(id=>'<button class="chip" data-id="'+id+'">'+STOPS[id].short+'</button>').join('')+'</div>'+
+  '<div class="fb" id="fb" aria-live="polite"></div><p class="small dim">Jaartal kwijt? Kijk in je schrift, onderaan.</p>'+(TEST?'<button class="btn ghost sm testbtn" id="skip">Test ⏭ kist openen</button>':'');
+  if(TEST) $('#skip').onclick=()=>{ S.fin=L.order.length; S.phase='end'; S.tEnd=Date.now(); render(); };
+  app.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    if(b.dataset.id===L.order[S.fin]){ S.fin++; if(S.fin===L.order.length){ S.phase='end'; S.tEnd=Date.now(); } render(); }
+    else { S.miss++; save(); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); const f=$('#fb'); f.className='fb bad'; f.textContent='Die is jonger. Er is er nog een die eerder kwam.'; }
+  });
+}
+
+function vEnd(){
+  const r=ROUTES[S.route], min=Math.max(1,Math.round(((S.tEnd||Date.now())-S.t0)/60000));
+  const extra = S.route==='k' ? '' :
+    '<p>De <b>Lichtjesroute</b> bestaat echt. Elk jaar vanaf 18 september hangt de stad vol lichtornamenten, 22 kilometer lang. Het begon in 1945, toen Eindhovenaren bij de eerste herdenking van de bevrijding kaarsen en lampjes achter hun ramen zetten.</p>';
+  if(r.proef){ app.innerHTML=BULB+'<p class="kicker" style="text-align:center">Proefronde klaar</p><h1 style="text-align:center;color:var(--amber)">AAN</h1>'+
+    '<div class="card"><p>De eerste lamp is aan. Zo werkt de hele wandeling: lopen, lezen, één opdracht per plek, en aan het eind de lampen in de tijd zetten.</p>'+
+    '<p>In de echte wandeling gaat Tonnies lampenkist open en staat er een ander woord op het deksel. Daarvoor moet je de stad in.</p></div>'+
+    '<button class="btn" id="nieuw">Kies een wandeling</button>';
+    $('#nieuw').onclick=()=>{ S.phase='start'; S.route=null; S.done={}; render(); }; return; }
+  app.innerHTML='<img class="pic" src="img/kist-open.webp" alt="" onerror="this.remove()">'+BULB+'<p class="kicker" style="text-align:center">De kist is open</p><h1 style="text-align:center;color:var(--amber)">'+r.toon+'</h1>'+
+  '<div class="card"><p>In de kist ligt geen goud. Er ligt één oude kooldraadlamp in, en een doosje lucifers. Onder in het doosje zit een briefje van Tonnie:</p>'+
+  '<div class="quote">“Iedereen denkt dat wij de Lichtstad zijn door de lamp. Maar vóór meneer Gerard maakten ze hier al lucifers. Het licht was er eerder dan Philips. Wij hebben het alleen langer laten branden.”</div>'+
+  '<p>Dat laatste klopt. Eindhoven had al een grote lucifersindustrie voordat Philips in 1891 begon. De bijnaam Lichtstad komt van allebei.</p>'+extra+'</div>'+
+  '<div class="card"><h3>Jullie wandeling</h3><p>'+r.stops.length+' draden · ongeveer '+min+' minuten · '+S.hints+' hints · '+S.helped+' keer de oplossing gevraagd · '+S.miss+' lampen verkeerd in de kist</p></div>'+
+  '<button class="btn" id="schrift">Bekijk het hele schrift</button><button class="btn ghost" id="nieuw">Nog een wandeling kiezen</button>';
+  $('#schrift').onclick=openSchrift;
+  $('#nieuw').onclick=()=>{ S.phase='start'; S.route=null; S.done={}; render(); };
+}
+
+/* ---------- onderbalk: schrift, route, menu ---------- */
+const sheet=$('#sheet'), sheetIn=$('#sheetIn');
+function openSheet(html){ sheetIn.innerHTML=html+'<button class="btn ghost" id="dicht">Sluiten</button>'; sheet.style.display='block'; $('#dicht').onclick=()=>sheet.style.display='none'; $('#dicht').focus(); }
+sheet.onclick=e=>{ if(e.target===sheet) sheet.style.display='none'; };
+function openSchrift(){
+  const ids=ROUTES[S.route].stops.filter(id=>S.done[id]);
+  openSheet('<h2>Het schrift</h2>'+(ids.length? ids.map(id=>'<div class="row"><span class="yr">'+STOPS[id].year+'</span><span><b>'+STOPS[id].short+'</b><br><span class="small dim">'+STOPS[id].yearWhy+'</span></span></div>').join('') : '<p class="dim">Nog leeg. Los je eerste draad op.</p>')+
+  '<p class="small dim">In de volgorde waarin je ze vond, niet in de volgorde van de tijd.</p>');
+}
+$('#bSchrift').onclick=openSchrift;
+function openPlattegrond(alles){
+  const r=(alles===true)?null:S.route;
+  openSheet('<h2>Plattegrond</h2><div id="mapB"></div>'+kleurLegenda()+(r ? '<h3 style="margin-top:16px">Jouw volgorde</h3>'+legend() : ''));
+  makeMap($('#mapB'),{h:'62vh',focus:r?'route':'all',noRoute:!r});
+}
+$('#bMap').onclick=()=>openPlattegrond();
+$('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Je voortgang wordt op deze telefoon bewaard.</p><button class="btn ghost" id="mStart">Naar het beginscherm</button><button class="btn ghost" id="mReset">Deze wandeling opnieuw beginnen</button>'+
+  '<p class="small dim">Verantwoording: Tonnie en zijn schrift zijn verzonnen. De feiten bij de plekken komen uit openbare bronnen, onder meer het Philips Museum, het DAF Museum, de TU/e, Omroep Brabant en gemeentelijke publicaties.</p>');
+  if(TEST){ const pp=pins(), n=Object.keys(pp).length;
+    $('#dicht').insertAdjacentHTML('beforebegin','<h3 style="margin-top:14px">Testhulp</h3><p class="small dim">Alleen zichtbaar op de testsite. Opdrachten kun je overslaan met “Test ⏭”. Staat een speld verkeerd: tik hem aan op de kaart, kies “speld verplaatsen” en tik de goede plek aan. Stuur daarna deze lijst door.</p>'+
+      '<textarea readonly style="width:100%;height:'+(n?110:46)+'px;background:#0c0e15;color:var(--ink);border:1px solid var(--line);border-radius:10px;font:12px ui-monospace,monospace;padding:8px">'+(n?JSON.stringify(pp):'Nog geen spelden verplaatst.')+'</textarea>'+
+      (n?'<button class="btn ghost" id="pinReset">Spelden terugzetten</button>':''));
+    if(n) $('#pinReset').onclick=()=>{ try{ localStorage.removeItem(PINKEY); }catch(e){} location.reload(); }; }
+  $('#mStart').onclick=()=>{ sheet.style.display='none'; window.scrollTo(0,0); vStart(); $('#bar').style.display='none'; };
+  $('#mReset').onclick=()=>{ sheet.style.display='none'; S={route:S.route,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); }; };
+
+load(); if(S.route && S.phase!=='start'){ vStart(); $('#bar').style.display='none'; } else render();
+</script>
+</body>
+</html>
