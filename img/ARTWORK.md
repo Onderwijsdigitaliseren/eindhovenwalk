@@ -15,56 +15,44 @@ Gebruik deze beschrijving in elke prompt waar hij in voorkomt.
 
 - **Tonnie**: man van een jaar of zeventig, mager, grijze stofjas over een vest, platte pet, ronde bril. Vriendelijke, wat spottende ogen. In zijn borstzak een potlood, onder zijn arm een schrift met een harde kaft.
 
-## Stand op 17 november 2026
+## Stand op 17 november 2026: compleet
 
-**Al aanwezig (11):** foto's uit het document *Eindhoven City Walk* (Summa), bijgesneden en als WebP in deze map gezet.
+Alle beelden staan in deze map. Er hoeft niets meer gemaakt te worden om te kunnen testen.
 
-| Bestand | Plek | Bron in het document |
-|---|---|---|
-| `bk.webp` | De Bijenkorf | vraag 9, Insects! |
-| `blob.webp` | De Blob | vraag 6, Triangles! |
-| `wd.webp` | De Witte Dame | vraag 3, Books! |
-| `sta.webp` | Het station | vraag 10, What's On The Radio? |
-| `sta-2.webp` | Beeld Anton Philips (tweede beeld bij het station, na de opdracht) | vraag 11, Mister Eindhoven? |
-| `eff.webp` | De Effenaar | vraag 13, Time to Relax! |
-| `muur.webp` | De fabrieksmuur / het washuis | vraag 14, Nice Outfits! |
-| `daf.webp` | DAF Museum | vraag 17, It Moves us! |
-| `dyn.webp` | Dynamo | vraag 25, Forever Youth! |
-| `w-kanaal.webp` | weetje Eindhovens Kanaal | vraag 18, Floating Potential! |
-| `w-vest.webp` | weetje Vestedatoren | vraag 23, To The Sky And Beyond! |
-
-Liggende foto's zijn 1200×800, staande 1080×1350. De pagina laat beide vormen zien.
-
-**Niet gebruikt uit het document:** de beelden die van internet komen (Lichttoren bij nacht, Stratumseind, de Catharinakerk en de pleinen tijdens GLOW, de fietskelder, het Philips Museum). Die zijn van anderen en horen niet in een betaald product.
-
-**Nog te maken (16):** alles hieronder. Wil je één stijl, dan kun je de foto's hierboven later ook laten vervangen door een illustratie met dezelfde bestandsnaam.
-
-## Nog te maken: algemeen
-
-| Bestand | Maat | Waar | Prompt |
+| Bestand | Wat | Soort | Opmerking |
 |---|---|---|---|
-| `hero.webp` | 1080×1350 (staand, 4:5) | bovenaan het startscherm | Een witte, zevenhoekige fabriekstoren uit de jaren twintig bij nacht, alle ramen warm verlicht, de stad eronder in het donker. Op de voorgrond één brandende gloeilamp met een zichtbare gloeidraad. |
-| `tonnie.webp` | 600×600 | rond portretje naast elk citaat | Portret van Tonnie (zie boven), van de borst omhoog, licht van één lamp van opzij, donkere achtergrond. |
-| `kist-dicht.webp` | 1200×800 | finale, boven de puzzel | Een houten lampenkist met ijzeren hoeken op de stenen van een stadsplein bij schemer. Op het deksel een rij lege lampfittingen. |
-| `kist-open.webp` | 1200×800 | eindscherm | Dezelfde kist, nu open: in stro ligt één oude kooldraadlamp die zacht gloeit, ernaast een doosje lucifers en een opgevouwen briefje. |
-| `cover.webp` | 400×400 | kaart in de catalogus (later) | Close-up van een gloeiende gloeidraad in een glazen bol, met op de achtergrond onscherp de lichtjes van een stad. |
-| `og.jpg` | 1200×630 | deelplaatje | Het beeld van `hero`, liggend: de verlichte toren links, de gloeilamp groot rechts. Ruimte in het midden vrij. |
+| `hero.webp` | startscherm | illustratie | 1080×1350 |
+| `tonnie.webp` | portret bij de citaten | illustratie | de achtergrond lijkt op een Amsterdamse gracht |
+| `kist-dicht.webp` | finale | illustratie | het plein op de achtergrond is niet Eindhoven |
+| `kist-open.webp` | eindscherm | illustratie | |
+| `cover.webp` | catalogus (nog niet in gebruik) | illustratie | 400×400 |
+| `og.jpg` | deelplaatje | illustratie | 1200×630 |
+| `bk.webp` | De Bijenkorf | foto uit City Walk-document | |
+| `blob.webp` | De Blob | foto uit City Walk-document | |
+| `lt.webp` | De Lichttoren | foto | Philips-logo in beeld |
+| `ger.webp` | Gerard Philips | foto | genomen op de oude plek (Strijp-T), met hoogwerker |
+| `psv.webp` | Philips Stadion | foto | klein: 447×447 |
+| `wd.webp` | De Witte Dame | foto uit City Walk-document | |
+| `fab.webp` | Het eerste fabriekje | foto | klein: 515×343 |
+| `frits.webp` | Meneer Frits | foto | klein: 356×561 |
+| `kerk.webp` | De Catharinakerk | foto | klein: 365×547 |
+| `monu.webp` | Het Bevrijdingsmonument | foto | klein: 638×425 |
+| `dyn.webp` | Dynamo | foto uit City Walk-document | |
+| `strat.webp` | Stratumseind | foto | merknamen van cafés en bier in beeld |
+| `daf.webp` | DAF Museum | foto uit City Walk-document | |
+| `eff.webp` | De Effenaar | foto uit City Walk-document | |
+| `muur.webp` | De fabrieksmuur / het washuis | foto uit City Walk-document | |
+| `silly.webp` | De Silly Walks-tunnel | foto | |
+| `ath.webp` | De kernreactor (Athene) | schermafbeelding van Street View | mag zo niet in een product; vervangen door een eigen foto |
+| `sta.webp` | Het station | foto uit City Walk-document | |
+| `sta-2.webp` | Beeld Anton Philips, na de opdracht | foto uit City Walk-document | |
+| `w-kanaal.webp` | weetje Eindhovens Kanaal | foto uit City Walk-document | |
+| `w-vest.webp` | weetje Vestedatoren | foto uit City Walk-document | |
 
-## Nog te maken: plekken
-Eén beeld per plek, bovenaan het verhaal. 1200×800 (liggend, 3:2) of 1080×1350 (staand, 4:5). De bestandsnaam is de code van de plek. Een eigen foto werkt net zo goed: zelfde bestandsnaam, WebP, en de pagina gebruikt hem.
-
-| Bestand | Plek | Prompt |
-|---|---|---|
-| `lt.webp` | De Lichttoren | De witte zevenhoekige fabriekstoren van onderaf gezien, bij nacht. Achter elk raam rijen brandende gloeilampen op rekken. |
-| `ger.webp` | Gerard Philips | Een reusachtige buste van een man met snor en ronde bril, gestapeld uit honderden roestbruine lagen staal, in een park. Dwars door het beeld loopt een poort waar een wandelaar doorheen stapt. |
-| `psv.webp` | Philips Stadion | Een voetbalstadion midden tussen de huizen bij avond, lichtmasten aan, rood-witte sjaals in de mensenmassa op straat. Geen clublogo. |
-| `fab.webp` | Het eerste fabriekje | Een klein bakstenen fabriekje uit 1891 met een schoorsteen. Binnen, door het raam: een werkbank met glazen bollen en één brandende kooldraadlamp. |
-| `frits.webp` | Meneer Frits | Een bronzen standbeeld van een oudere heer in lange jas op een marktplein, tussen de terrassen. Avondlicht, mensen lopen langs. |
-| `kerk.webp` | De Catharinakerk | Een neogotische kerk met twee hoge torens die net van elkaar verschillen, van onderaf gezien, verlicht tegen een donkerblauwe lucht. |
-| `monu.webp` | Het Bevrijdingsmonument | Een bronzen beeldengroep van drie figuren die omhoog reiken, met ervoor een brandende fakkel, op een leeg plein bij schemer. |
-| `strat.webp` | Stratumseind | Een smalle uitgaansstraat bij nacht, aan weerskanten cafés, erboven lantaarns die de straat in een zachte kleur zetten. Druk, warm, nat plaveisel. |
-| `silly.webp` | De Silly Walks-tunnel | Een lange voetgangerstunnel met op de muur een rij getekende silhouetten van een man met bolhoed in steeds een andere malle pas. Aan het eind daglicht. |
-| `ath.webp` | De kernreactor | Een laag, gesloten betonnen laboratoriumgebouw uit de jaren zestig tussen de bomen op een universiteitsterrein, één verlichte deur, een blauwe gloed achter een hoog raam. |
+## Nog te doen vóór verkoop
+- **Rechten nalopen.** Een deel van de foto's lijkt van internet te komen: `lt`, `ger`, `psv`, `fab`, `frits`, `kerk`, `monu`, `strat`, `silly`. Die kun je alleen houden als ze van jou zijn of vrij te gebruiken (bijvoorbeeld Wikimedia met naamsvermelding). `ath` is een schermafbeelding van Street View en moet er in elk geval uit. Voor testen maakt het niet uit.
+- **Kleine foto's vervangen** door scherpere (minstens 1200 px breed): `psv`, `fab`, `frits`, `kerk`, `monu`.
+- Een eigen foto of illustratie met dezelfde bestandsnaam vervangt het beeld vanzelf. Liggend 1200×800, staand 1080×1350.
 
 ## Kan erbij (niet nodig)
 - Een weetje krijgt een plaatje als er `img/<code>.webp` staat: `w-pins`, `w-abbe`, `w-adm`, `w-pater`, `w-fiets`, `w-muziek`, `w-dommel`, `w-tue`.
