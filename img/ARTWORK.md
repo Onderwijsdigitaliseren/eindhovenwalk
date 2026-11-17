@@ -42,8 +42,8 @@ Alle beelden staan in deze map. Er hoeft niets meer gemaakt te worden om te kunn
 | `daf.webp` | DAF Museum | foto uit City Walk-document | |
 | `eff.webp` | De Effenaar | foto uit City Walk-document | |
 | `muur.webp` | De fabrieksmuur / het washuis | foto uit City Walk-document | |
-| `silly.webp` | De Silly Walks-tunnel | foto | |
-| `ath.webp` | De kernreactor (Athene) | schermafbeelding van Street View | mag zo niet in een product; vervangen door een eigen foto |
+| `silly.webp` | De Silly Walks-tunnel | foto, opnieuw aangeleverd op 17 nov (lijkt een eigen telefoonfoto) | |
+| `ath.webp` | De kernreactor (Athene) | opnieuw aangeleverd op 17 nov; lijkt weer een schermafbeelding van Street View | klein (593×395) en mag zo niet in een product; vervangen door een eigen foto |
 | `sta.webp` | Het station | foto uit City Walk-document | |
 | `sta-2.webp` | Beeld Anton Philips, na de opdracht | foto uit City Walk-document | |
 | `w-kanaal.webp` | weetje Eindhovens Kanaal | foto uit City Walk-document | |
