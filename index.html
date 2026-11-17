@@ -367,11 +367,21 @@ const cur = () => STOPS[ROUTES[S.route].stops[S.i]];
 const curId = () => ROUTES[S.route].stops[S.i];
 
 /* ---------- gps (werkt alleen waar de browser het toestaat) ---------- */
-let pos=null, gpsOn=false;
-function startGps(){ if(gpsOn || !navigator.geolocation) return; gpsOn=true;
-  try{ navigator.geolocation.watchPosition(p=>{ pos={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy||0}; const el=$('#afst'); if(el) el.innerHTML=afstTxt(); redrawAll(); },
-    ()=>{ pos=null; }, {enableHighAccuracy:true, maximumAge:5000}); }catch(e){} }
-function afstTxt(){ if(!pos) return ''; const d=dist(pos,cur()); if(d>5000) return ''; return d<35 ? '<b style="color:var(--ok)">Je bent er (bijna).</b>' : 'Nog ongeveer <b>'+(Math.round(d/10)*10)+' meter</b> hemelsbreed.'; }
+let pos=null, gpsOn=false, gpsId=null, gpsMsg='';
+function gpsUpd(){ const el=$('#afst'); if(el) el.innerHTML=afstTxt(); redrawAll(); }
+function startGps(){
+  if(gpsOn) return;
+  if(!navigator.geolocation){ gpsMsg='Deze browser geeft geen locatie door. De wandeling werkt ook zonder.'; gpsUpd(); return; }
+  gpsOn=true; gpsMsg='Locatie zoeken…'; gpsUpd();
+  try{ gpsId=navigator.geolocation.watchPosition(p=>{ pos={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy||0}; gpsMsg=''; gpsUpd(); },
+    e=>{ pos=null; gpsOn=false; try{ navigator.geolocation.clearWatch(gpsId); }catch(_){ }
+      gpsMsg = e && e.code===1 ? 'Locatie is geblokkeerd voor deze site. Sta locatie toe in je browser en tik daarna op ◎ op de kaart.'
+             : e && e.code===3 ? 'Geen locatie gevonden. Tik op ◎ op de kaart om het opnieuw te proberen.'
+             : 'Je locatie is nu niet te bepalen. Tik op ◎ op de kaart om het opnieuw te proberen.';
+      gpsUpd(); }, {enableHighAccuracy:true, maximumAge:5000, timeout:20000}); }
+  catch(e){ gpsOn=false; gpsMsg='Je locatie is nu niet te bepalen. Tik op ◎ op de kaart om het opnieuw te proberen.'; gpsUpd(); } }
+function verTxt(){ return 'Je bent ongeveer '+Math.round(dist(pos,{lat:51.4410,lng:5.4790})/1000)+' km van de binnenstad van Eindhoven. Je stip valt buiten de kaart; de wandeling werkt ook zonder.'; }
+function afstTxt(){ if(!pos) return gpsMsg ? '<span class="dim">'+gpsMsg+'</span>' : ''; const d=dist(pos,cur()); if(d>5000) return '<span class="dim">'+verTxt()+'</span>'; return d<35 ? '<b style="color:var(--ok)">Je bent er (bijna).</b>' : 'Nog ongeveer <b>'+(Math.round(d/10)*10)+' meter</b> hemelsbreed.'; }
 
 /* ---------- weetjes: extra punten op de kaart, zonder opdracht ---------- */
 const WEETJES=[
@@ -521,7 +531,7 @@ function makeMap(host, opt){
   cv.addEventListener('wheel',e=>{ e.preventDefault(); V.s=Math.max(.1,Math.min(4,V.s*(e.deltaY<0?1.2:1/1.2))); ask(); },{passive:false});
   box.querySelectorAll('.mapbtns button').forEach(b=>b.onclick=()=>{ const z=b.dataset.z;
     if(z==='in') V.s=Math.min(4,V.s*1.4); if(z==='out') V.s=Math.max(.1,V.s/1.4); if(z==='fit') fit(routeIds().map(id=>STOPS[id]));
-    if(z==='me'){ if(pos){ V.x=mX(pos.lng); V.y=mY(pos.lat); if(V.s<.6) V.s=.8; } else toast('Je locatie is hier niet beschikbaar.'); } ask(); });
+    if(z==='me'){ if(pos){ if(dist(pos,{lat:ORG.lat,lng:ORG.lon})>3000) toast(verTxt()); else { V.x=mX(pos.lng); V.y=mY(pos.lat); if(V.s<.6) V.s=.8; } } else { startGps(); toast(gpsMsg||'Locatie zoeken…'); } } ask(); });
   const api={cv:cv, draw:ask};
   size(); refit(); draw(); LIVE.add(api);
   if(window.ResizeObserver) new ResizeObserver(()=>{ const w=box.clientWidth,h=box.clientHeight; if(w&&h&&(w!==cw||h!==ch)){ const first=!cw; size(); if(first) refit(); ask(); } }).observe(box);
