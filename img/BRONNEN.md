@@ -7,11 +7,11 @@ Voor de plekken waar nu nog een foto van internet staat. Download de foto van de
 | `lt` | De Lichttoren | [Lichttoren Eindhoven 1.JPG](https://commons.wikimedia.org/wiki/File:Lichttoren_Eindhoven_1.JPG) | Rosemoon | CC BY-SA 3.0 | klaar |
 | `strat` | Stratumseind | [Stratumseind.JPG](https://commons.wikimedia.org/wiki/File:Stratumseind.JPG) | Casimir (nl.wikipedia) | CC BY-SA 2.5 | klaar |
 | `kerk` | De Catharinakerk | [Catharinakerk Eindhoven.jpg](https://commons.wikimedia.org/wiki/File:Catharinakerk_Eindhoven.jpg) | Lempkesfabriek | publiek domein | klaar |
-| `monu` | Het Bevrijdingsmonument | [Bevrijdingsmonument.jpg](https://commons.wikimedia.org/wiki/File:Bevrijdingsmonument.jpg) (link nakijken) | **ontbreekt** | CC BY-SA 3.0 | maker nog invullen |
+| `monu` | Het Bevrijdingsmonument | [Bevrijdingsmonument.jpg](https://commons.wikimedia.org/wiki/File:Bevrijdingsmonument.jpg) | Lempkesfabriek | CC BY-SA 3.0 | klaar |
 | `frits` | Meneer Frits | [Beeld F.Philips - panoramio.jpg](https://commons.wikimedia.org/wiki/File:Beeld_F.Philips_-_panoramio.jpg) | michiel1972 (Panoramio) | **ontbreekt** | licentie nog invullen |
 | `ger` | Gerard Philips | [Poort naar de Toekomst - stalen beeltenis van Gerard Philips.jpg](https://commons.wikimedia.org/wiki/File:Poort_naar_de_Toekomst_-_stalen_beeltenis_van_Gerard_Philips.jpg) | Alex P. Kok | **ontbreekt** | licentie nog invullen |
-| `psv` | Philips Stadion | [categorie Philips Stadion](https://commons.wikimedia.org/wiki/Category:Philips_Stadion) (precieze bestandspagina nog niet bekend) | Michielverbeek | **ontbreekt** | licentie en link nog invullen; aangeleverde foto is maar 447×447 |
-| `fab` | Het eerste fabriekje | [Philipsfabriekje.jpg](https://commons.wikimedia.org/wiki/File:Philipsfabriekje.jpg) | Lempkesfabriek | CC BY-SA 3.0 | bevestigen dat het deze foto is, dan gaat de vermelding aan |
+| `psv` | Philips Stadion | [Eindhoven het Philips Stadion IMG 8630 2019-01-20 12.22.jpg](https://commons.wikimedia.org/wiki/File:Eindhoven_het_Philips_Stadion_IMG_8630_2019-01-20_12.22.jpg) | Michielverbeek | CC BY-SA 4.0 | klaar |
+| `fab` | Het eerste fabriekje | [Philipsfabriekje.jpg](https://commons.wikimedia.org/wiki/File:Philipsfabriekje.jpg) | Lempkesfabriek | CC BY-SA 3.0 | klaar |
 
 Niet gevonden op Commons, dus zelf fotograferen: `silly` (Silly Walks-tunnel) en `ath` (kernreactor, gebouw Athene).
 
