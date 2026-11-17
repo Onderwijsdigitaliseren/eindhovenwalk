@@ -132,7 +132,9 @@ UI = [
  ('Verantwoording: Tonnie en zijn schrift zijn verzonnen. De feiten bij de plekken komen uit openbare bronnen, onder meer het Philips Museum, het DAF Museum, de TU/e, Omroep Brabant en gemeentelijke publicaties.', 'About the facts: Tonnie and his notebook are made up. The facts at the stops come from public sources, including the Philips Museum, the DAF Museum, TU/e, Omroep Brabant and city council publications.'),
  ('>Testhulp</h3>', '>Test tools</h3>'),
  ('Alleen zichtbaar op de testsite. Opdrachten kun je overslaan met “Test ⏭”. Staat een speld verkeerd: tik hem aan op de kaart, kies “speld verplaatsen” en tik de goede plek aan. Stuur daarna deze lijst door.', 'Only visible on the test site. Skip puzzles with “Test ⏭”. If a pin is wrong: tap it on the map, choose “move pin” and tap the right spot. Then send this list on.'),
- ('Nog geen spelden verplaatst.', 'No pins moved yet.'), ('>Spelden terugzetten</button>', '>Reset pins</button>'),
+ ('Nog geen spelden verplaatst.', 'No pins moved yet.'),
+ ('🗑 Alles wissen', '🗑 Clear everything'), ('🗑 Wissen en opnieuw beginnen', '🗑 Clear and start over'),
+ ('Zeker weten? Tik nog een keer om alles te wissen', 'Are you sure? Tap again to clear everything'), ("toast('Alles gewist.')", "toast('Everything cleared.')"), ('>Spelden terugzetten</button>', '>Reset pins</button>'),
 ]
 for a, b in UI:
     rep(a, b)

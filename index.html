@@ -600,7 +600,7 @@ function vStart(){
   '<div class="card"><p>In de Lichttoren brandden vroeger dag en nacht lampen, om te meten hoe lang ze het volhielden. Tonnie was een van de mensen die daarbij zat en noteerde wanneer er een uitging.</p>'+
   '<p>Hij liet een schrift na. Daarin staat een route door de stad, met op elke plek een <b>draad</b>: een raadsel dat je alleen daar oplost. Elke draad doet een lamp branden. Met alle lampen aan gaat op het plein zijn lampenkist open.</p>'+
   '<p class="small dim">Tonnie en zijn schrift zijn verzonnen. Alles wat je onderweg over de stad leest, is echt gebeurd.</p></div>'+
-  (resume ? '<button class="btn" id="go">Verder waar je was ('+ROUTES[S.route].label.toLowerCase()+', draad '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button>' : '')+
+  (resume ? '<button class="btn" id="go">Verder waar je was ('+ROUTES[S.route].label.toLowerCase()+', draad '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button><button class="btn ghost" id="wis" data-label="🗑 Wissen en opnieuw beginnen">🗑 Wissen en opnieuw beginnen</button>' : '')+
   '<h3 style="margin-top:22px">Kies je wandeling</h3>'+
   ['k','m','l'].map(k=>{ const r=ROUTES[k]; return '<button class="variant" data-k="'+k+'"><b>'+r.label+' · '+r.tijd+'</b><span>'+r.stops.length+' plekken · ongeveer '+routeKm(k).toFixed(1).replace('.',',')+' km · '+r.sub+'</span></button>'; }).join('')+
   '<h3 style="margin-top:22px">Eerst proberen</h3><button class="variant" data-k="p"><b>Proefronde · ± 15 minuten</b><span>Drie plekken rond het 18 Septemberplein, met een kleine finale.</span></button>'+
@@ -608,7 +608,7 @@ function vStart(){
   '<h3 style="margin-top:22px">Plattegrond: alle plekken</h3><div id="mapA"></div>'+kleurLegenda()+'<button class="btn ghost" id="groot">Plattegrond groot bekijken</button>'+
   '<p class="small" style="text-align:center"><a href="en/">English version</a></p>'+
   '<p class="small dim">Voor volwassenen en oudere studenten. Alleen of met een groepje op één telefoon. De tijden zijn een richtlijn: wie overal blijft kijken, doet er langer over. Neem een opgeladen telefoon mee.</p>';
-  if(resume) $('#go').onclick=()=>render();
+  if(resume){ $('#go').onclick=()=>render(); wisKnop($('#wis')); }
   $('#groot').onclick=()=>openPlattegrond(true);
   makeMap($('#mapA'),{h:'48vh',focus:'all',noRoute:true});
   app.querySelectorAll('.variant').forEach(b=>b.onclick=()=>{ S={route:b.dataset.k,bank:b.dataset.bank==='1',i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); });
@@ -747,6 +747,12 @@ function vEnd(){
   $('#nieuw').onclick=()=>{ S.phase='start'; S.route=null; S.done={}; render(); };
 }
 
+/* ---------- wissen: twee keer tikken, geen browser-dialoog ---------- */
+function wisKnop(btn){ btn.onclick=()=>{ if(btn.dataset.zeker){ try{ localStorage.removeItem(KEY); }catch(e){}
+    S={route:null,i:0,phase:'start',done:{},hints:0,helped:0,t0:0,fin:0,miss:0}; sheet.style.display='none'; render(); toast('Alles gewist.'); return; }
+  btn.dataset.zeker='1'; btn.textContent='Zeker weten? Tik nog een keer om alles te wissen'; btn.style.borderColor='var(--bad)'; btn.style.color='var(--bad)';
+  setTimeout(()=>{ if(btn.isConnected){ delete btn.dataset.zeker; btn.textContent=btn.dataset.label; btn.style.borderColor=''; btn.style.color=''; } },4000); }; }
+
 /* ---------- onderbalk: schrift, route, menu ---------- */
 const sheet=$('#sheet'), sheetIn=$('#sheetIn');
 function openSheet(html){ sheetIn.innerHTML=html+'<button class="btn ghost" id="dicht">Sluiten</button>'; sheet.style.display='block'; $('#dicht').onclick=()=>sheet.style.display='none'; $('#dicht').focus(); }
@@ -763,14 +769,14 @@ function openPlattegrond(alles){
   makeMap($('#mapB'),{h:'62vh',focus:r?'route':'all',noRoute:!r});
 }
 $('#bMap').onclick=()=>openPlattegrond();
-$('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Je voortgang wordt op deze telefoon bewaard.</p><button class="btn ghost" id="mStart">Naar het beginscherm</button><button class="btn ghost" id="mReset">Deze wandeling opnieuw beginnen</button><button class="btn ghost" id="mCred">Beeldverantwoording</button>'+
+$('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Je voortgang wordt op deze telefoon bewaard.</p><button class="btn ghost" id="mStart">Naar het beginscherm</button><button class="btn ghost" id="mReset">Deze wandeling opnieuw beginnen</button><button class="btn ghost" id="mWis" data-label="🗑 Alles wissen">🗑 Alles wissen</button><button class="btn ghost" id="mCred">Beeldverantwoording</button>'+
   '<p class="small dim">Verantwoording: Tonnie en zijn schrift zijn verzonnen. De feiten bij de plekken komen uit openbare bronnen, onder meer het Philips Museum, het DAF Museum, de TU/e, Omroep Brabant en gemeentelijke publicaties.</p>');
   if(TEST){ const pp=pins(), n=Object.keys(pp).length;
     $('#dicht').insertAdjacentHTML('beforebegin','<h3 style="margin-top:14px">Testhulp</h3><p class="small dim">Alleen zichtbaar op de testsite. Opdrachten kun je overslaan met “Test ⏭”. Staat een speld verkeerd: tik hem aan op de kaart, kies “speld verplaatsen” en tik de goede plek aan. Stuur daarna deze lijst door.</p>'+
       '<textarea readonly style="width:100%;height:'+(n?110:46)+'px;background:#0c0e15;color:var(--ink);border:1px solid var(--line);border-radius:10px;font:12px ui-monospace,monospace;padding:8px">'+(n?JSON.stringify(pp):'Nog geen spelden verplaatst.')+'</textarea>'+
       (n?'<button class="btn ghost" id="pinReset">Spelden terugzetten</button>':''));
     if(n) $('#pinReset').onclick=()=>{ try{ localStorage.removeItem(PINKEY); }catch(e){} location.reload(); }; }
-  $('#mCred').onclick=openCredits;
+  $('#mCred').onclick=openCredits; wisKnop($('#mWis'));
   $('#mStart').onclick=()=>{ sheet.style.display='none'; window.scrollTo(0,0); vStart(); $('#bar').style.display='none'; };
   $('#mReset').onclick=()=>{ sheet.style.display='none'; S={route:S.route,bank:S.bank,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); }; };
 

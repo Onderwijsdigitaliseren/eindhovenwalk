@@ -833,7 +833,7 @@ function vStart(){
   '<div class="card"><p>In the Lichttoren, the Light Tower, lamps used to burn day and night to measure how long they lasted. Tonnie was one of the people who sat with them and noted when one went out.</p>'+
   '<p>He left a notebook. It holds a route through the city, with a <b>thread</b> at every stop: a riddle you can only solve there. Each thread lights a lamp. With all the lamps lit, his lamp chest on the square will open.</p>'+
   '<p class="small dim">Tonnie and his notebook are made up. Everything you read about the city along the way really happened.</p></div>'+
-  (resume ? '<button class="btn" id="go">Continue where you left off ('+ROUTES[S.route].label.toLowerCase()+', thread '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button>' : '')+
+  (resume ? '<button class="btn" id="go">Continue where you left off ('+ROUTES[S.route].label.toLowerCase()+', thread '+(Math.min(S.i+1,ROUTES[S.route].stops.length))+')</button><button class="btn ghost" id="wis" data-label="🗑 Clear and start over">🗑 Clear and start over</button>' : '')+
   '<h3 style="margin-top:22px">Choose your walk</h3>'+
   ['k','m','l'].map(k=>{ const r=ROUTES[k]; return '<button class="variant" data-k="'+k+'"><b>'+r.label+' · '+r.tijd+'</b><span>'+r.stops.length+' stops · about '+routeKm(k).toFixed(1)+' km · '+r.sub+'</span></button>'; }).join('')+
   '<h3 style="margin-top:22px">Try it first</h3><button class="variant" data-k="p"><b>Trial round · ± 15 minutes</b><span>Three stops around 18 Septemberplein, with a small finale.</span></button>'+
@@ -841,7 +841,7 @@ function vStart(){
   '<h3 style="margin-top:22px">Map: all stops</h3><div id="mapA"></div>'+kleurLegenda()+'<button class="btn ghost" id="groot">Open the large map</button>'+
   '<p class="small" style="text-align:center"><a href="../">Nederlandse versie</a></p>'+
   '<p class="small dim">For adults and older students. On your own or with a small group on one phone. The times are a guide: if you stop to look everywhere, it takes longer. Bring a charged phone.</p>';
-  if(resume) $('#go').onclick=()=>render();
+  if(resume){ $('#go').onclick=()=>render(); wisKnop($('#wis')); }
   $('#groot').onclick=()=>openPlattegrond(true);
   makeMap($('#mapA'),{h:'48vh',focus:'all',noRoute:true});
   app.querySelectorAll('.variant').forEach(b=>b.onclick=()=>{ S={route:b.dataset.k,bank:b.dataset.bank==='1',i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); });
@@ -980,6 +980,12 @@ function vEnd(){
   $('#nieuw').onclick=()=>{ S.phase='start'; S.route=null; S.done={}; render(); };
 }
 
+/* ---------- wissen: twee keer tikken, geen browser-dialoog ---------- */
+function wisKnop(btn){ btn.onclick=()=>{ if(btn.dataset.zeker){ try{ localStorage.removeItem(KEY); }catch(e){}
+    S={route:null,i:0,phase:'start',done:{},hints:0,helped:0,t0:0,fin:0,miss:0}; sheet.style.display='none'; render(); toast('Everything cleared.'); return; }
+  btn.dataset.zeker='1'; btn.textContent='Are you sure? Tap again to clear everything'; btn.style.borderColor='var(--bad)'; btn.style.color='var(--bad)';
+  setTimeout(()=>{ if(btn.isConnected){ delete btn.dataset.zeker; btn.textContent=btn.dataset.label; btn.style.borderColor=''; btn.style.color=''; } },4000); }; }
+
 /* ---------- onderbalk: schrift, route, menu ---------- */
 const sheet=$('#sheet'), sheetIn=$('#sheetIn');
 function openSheet(html){ sheetIn.innerHTML=html+'<button class="btn ghost" id="dicht">Close</button>'; sheet.style.display='block'; $('#dicht').onclick=()=>sheet.style.display='none'; $('#dicht').focus(); }
@@ -996,14 +1002,14 @@ function openPlattegrond(alles){
   makeMap($('#mapB'),{h:'62vh',focus:r?'route':'all',noRoute:!r});
 }
 $('#bMap').onclick=()=>openPlattegrond();
-$('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Your progress is saved on this phone.</p><button class="btn ghost" id="mStart">Back to the start screen</button><button class="btn ghost" id="mReset">Restart this walk</button><button class="btn ghost" id="mCred">Photo credits</button>'+
+$('#bMenu').onclick=()=>{ openSheet('<h2>Menu</h2><p class="small dim">Your progress is saved on this phone.</p><button class="btn ghost" id="mStart">Back to the start screen</button><button class="btn ghost" id="mReset">Restart this walk</button><button class="btn ghost" id="mWis" data-label="🗑 Clear everything">🗑 Clear everything</button><button class="btn ghost" id="mCred">Photo credits</button>'+
   '<p class="small dim">About the facts: Tonnie and his notebook are made up. The facts at the stops come from public sources, including the Philips Museum, the DAF Museum, TU/e, Omroep Brabant and city council publications.</p>');
   if(TEST){ const pp=pins(), n=Object.keys(pp).length;
     $('#dicht').insertAdjacentHTML('beforebegin','<h3 style="margin-top:14px">Test tools</h3><p class="small dim">Only visible on the test site. Skip puzzles with “Test ⏭”. If a pin is wrong: tap it on the map, choose “move pin” and tap the right spot. Then send this list on.</p>'+
       '<textarea readonly style="width:100%;height:'+(n?110:46)+'px;background:#0c0e15;color:var(--ink);border:1px solid var(--line);border-radius:10px;font:12px ui-monospace,monospace;padding:8px">'+(n?JSON.stringify(pp):'No pins moved yet.')+'</textarea>'+
       (n?'<button class="btn ghost" id="pinReset">Reset pins</button>':''));
     if(n) $('#pinReset').onclick=()=>{ try{ localStorage.removeItem(PINKEY); }catch(e){} location.reload(); }; }
-  $('#mCred').onclick=openCredits;
+  $('#mCred').onclick=openCredits; wisKnop($('#mWis'));
   $('#mStart').onclick=()=>{ sheet.style.display='none'; window.scrollTo(0,0); vStart(); $('#bar').style.display='none'; };
   $('#mReset').onclick=()=>{ sheet.style.display='none'; S={route:S.route,bank:S.bank,i:0,phase:'intro',done:{},hints:0,helped:0,t0:Date.now(),fin:0,miss:0}; render(); }; };
 
