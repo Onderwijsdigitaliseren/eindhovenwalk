@@ -193,7 +193,7 @@ ath:{ name:'The TU/e nuclear reactor', short:'Reactor', yearWhy:'reactor closed 
    'Its power was very low and it had run only briefly, so hardly any contaminated material was left. The one and a half kilos of highly enriched uranium went to Mol in Belgium. The building is still called Athene.'],
   puzzle:{type:'num', q:'A sum from the reactor classroom. A source emits 1,600 units. Every 4 years that halves. After how many years are 100 left?', answer:16,
    hints:['1,600 → 800 → 400 → …','You have to halve four times. Four times 4 years.']},
-  after:'Sixteen years. Nuclear research hasn’t left the campus: at the DIFFER institute they now work on nuclear fusion.' },
+  after:'Sixteen years. Nuclear research hasn’t left the campus: at the DIFFER institute they now work on nuclear fusion. Ready for a break? A little further on, in the Luna building, are student café Hubble and the campus supermarket. They are on the map.' },
 
 sta:{ name:'The station and Anton Philips', short:'Station', yearWhy:'the station opens',
   walk:'Walk via the Dommelstraat and the Stationsweg to the Stationsplein. Stand in front of the station, by the statue.',
@@ -224,6 +224,8 @@ const ENW = {
  'w-muziek':{name:'Muziekgebouw Frits Philips', t:'Eindhoven’s concert hall, since 1992, named after Mr Frits. The restaurant is called that too: Meneer Frits.'},
  'w-dommel':{name:'The Dommel', t:'This little river rises in Belgium, flows right through Eindhoven and ends up near Den Bosch. The old town lay exactly where the Dommel and the Gender met.'},
  'w-tue':{name:'TU/e', t:'Founded in 1956 as Eindhoven’s technical college, the second in the Netherlands. The campus lies right behind the station.'},
+ 'w-hubble':{name:'Hubble', t:'The campus student café, in the Luna building. It is run by students themselves and opened in early 2018. The name comes from the space telescope: it explores the universe, students explore student life. During construction they said: “Now it’s still rubble, soon it will be Hubble.”'},
+ 'w-spar':{name:'Campus supermarket', t:'Until 2015 the only place to buy food on campus was the canteens. Then the first supermarket, a SPAR University, opened in the Flux building. This second one is in the Luna student flats, next to café Hubble.'},
  'w-kanaal':{name:'Eindhoven Canal', t:'This is where the Eindhoven Canal begins, dug in 1846 to the Zuid-Willemsvaart canal. For Eindhoven it was the first good connection to the rest of the country, even before the railway.'}
 };
 WEETJES.forEach(w=>Object.assign(w, ENW[w.id]));

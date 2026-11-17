@@ -55,5 +55,5 @@ Alle beelden staan in deze map. Er hoeft niets meer gemaakt te worden om te kunn
 - Een eigen foto of illustratie met dezelfde bestandsnaam vervangt het beeld vanzelf. Liggend 1200×800, staand 1080×1350.
 
 ## Kan erbij (niet nodig)
-- Een weetje krijgt een plaatje als er `img/<code>.webp` staat: `w-pins`, `w-abbe`, `w-adm`, `w-pater`, `w-fiets`, `w-muziek`, `w-dommel`, `w-tue`.
+- Een weetje krijgt een plaatje als er `img/<code>.webp` staat: `w-pins`, `w-abbe`, `w-adm`, `w-pater`, `w-fiets`, `w-muziek`, `w-dommel`, `w-tue`, `w-hubble`, `w-spar`.
 - Een tweede beeld na de opdracht: `img/<code>-2.webp` (nu alleen `sta-2`).
