@@ -50,9 +50,9 @@ Alle beelden staan in deze map. Er hoeft niets meer gemaakt te worden om te kunn
 | `w-vest.webp` | weetje Vestedatoren | foto uit City Walk-document | |
 
 ## Nog te doen vóór verkoop
-- **Rechten nalopen.** Een deel van de foto's lijkt van internet te komen: `lt`, `ger`, `psv`, `fab`, `frits`, `kerk`, `monu`, `strat`, `silly`. Die kun je alleen houden als ze van jou zijn of vrij te gebruiken (bijvoorbeeld Wikimedia met naamsvermelding). `ath` is een schermafbeelding van Street View en moet er in elk geval uit. Voor testen maakt het niet uit.
-- **Kleine foto's vervangen** door scherpere (minstens 1200 px breed): `psv`, `fab`, `frits`, `kerk`, `monu`.
-- Een eigen foto of illustratie met dezelfde bestandsnaam vervangt het beeld vanzelf. Liggend 1200×800, staand 1080×1350.
+- **Rechten:** de foto's van internet zijn vervangen door vrije foto's van Wikimedia Commons; maker en licentie staan in `BRONNEN.md` en in het spel onder Menu → Beeldverantwoording. Alle acht zijn compleet (17 nov).
+- `ath.webp` (kernreactor) is nog een schermafbeelding van Street View en moet vervangen worden door een eigen foto.
+- `silly.webp`: aangenomen dat het een eigen foto is.
 
 ## Kan erbij (niet nodig)
 - Een weetje krijgt een plaatje als er `img/<code>.webp` staat: `w-pins`, `w-abbe`, `w-adm`, `w-pater`, `w-fiets`, `w-muziek`, `w-dommel`, `w-tue`, `w-hubble`, `w-spar`.

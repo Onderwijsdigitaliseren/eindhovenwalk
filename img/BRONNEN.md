@@ -8,8 +8,8 @@ Voor de plekken waar nu nog een foto van internet staat. Download de foto van de
 | `strat` | Stratumseind | [Stratumseind.JPG](https://commons.wikimedia.org/wiki/File:Stratumseind.JPG) | Casimir (nl.wikipedia) | CC BY-SA 2.5 | klaar |
 | `kerk` | De Catharinakerk | [Catharinakerk Eindhoven.jpg](https://commons.wikimedia.org/wiki/File:Catharinakerk_Eindhoven.jpg) | Lempkesfabriek | publiek domein | klaar |
 | `monu` | Het Bevrijdingsmonument | [Bevrijdingsmonument.jpg](https://commons.wikimedia.org/wiki/File:Bevrijdingsmonument.jpg) | Lempkesfabriek | CC BY-SA 3.0 | klaar |
-| `frits` | Meneer Frits | [Beeld F.Philips - panoramio.jpg](https://commons.wikimedia.org/wiki/File:Beeld_F.Philips_-_panoramio.jpg) | michiel1972 (Panoramio) | **ontbreekt** | licentie nog invullen |
-| `ger` | Gerard Philips | [Poort naar de Toekomst - stalen beeltenis van Gerard Philips.jpg](https://commons.wikimedia.org/wiki/File:Poort_naar_de_Toekomst_-_stalen_beeltenis_van_Gerard_Philips.jpg) | Alex P. Kok | **ontbreekt** | licentie nog invullen |
+| `frits` | Meneer Frits | [Beeld F.Philips - panoramio.jpg](https://commons.wikimedia.org/wiki/File:Beeld_F.Philips_-_panoramio.jpg) | michiel1972 (Panoramio) | CC BY-SA 3.0 | klaar |
+| `ger` | Gerard Philips | [Poort naar de Toekomst - stalen beeltenis van Gerard Philips.jpg](https://commons.wikimedia.org/wiki/File:Poort_naar_de_Toekomst_-_stalen_beeltenis_van_Gerard_Philips.jpg) | Alex P. Kok | CC BY-SA 4.0 | klaar |
 | `psv` | Philips Stadion | [Eindhoven het Philips Stadion IMG 8630 2019-01-20 12.22.jpg](https://commons.wikimedia.org/wiki/File:Eindhoven_het_Philips_Stadion_IMG_8630_2019-01-20_12.22.jpg) | Michielverbeek | CC BY-SA 4.0 | klaar |
 | `fab` | Het eerste fabriekje | [Philipsfabriekje.jpg](https://commons.wikimedia.org/wiki/File:Philipsfabriekje.jpg) | Lempkesfabriek | CC BY-SA 3.0 | klaar |
 
