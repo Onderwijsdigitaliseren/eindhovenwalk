@@ -553,7 +553,7 @@ const CREDITS=[
  {id:'monu',  plek:'Het Bevrijdingsmonument',maker:'', lic:'', url:'https://commons.wikimedia.org/wiki/Category:Stadhuisplein_(Eindhoven)', ok:false}
 ];
 function openCredits(){
-  const rows=CREDITS.filter(c=>c.ok).map(c=>'<div class="row"><span><b>'+c.plek+'</b><br><span class="small dim">Foto: '+c.maker+' · '+c.lic+' · bijgesneden · <a href="'+c.url+'" target="_blank" rel="noopener">bron</a></span></span></div>').join('');
+  const rows=CREDITS.filter(c=>c.ok).map(c=>'<div class="row"><span><b>'+STOPS[c.id].name+'</b><br><span class="small dim">Foto: '+c.maker+' · '+c.lic+' · bijgesneden · <a href="'+c.url+'" target="_blank" rel="noopener">bron</a></span></span></div>').join('');
   openSheet('<h2>Beeldverantwoording</h2>'+rows+'<p class="small dim">Illustraties en overige foto’s: Enigma Mystery. Kaartgegevens: © OpenStreetMap-bijdragers, © OpenMapTiles.</p>');
 }
 /* ---------- testhulp: alleen op github.io / lokaal, uit met ?live ---------- */
@@ -591,6 +591,7 @@ function vStart(){
   ['k','m','l'].map(k=>{ const r=ROUTES[k]; return '<button class="variant" data-k="'+k+'"><b>'+r.label+' · '+r.tijd+'</b><span>'+r.stops.length+' plekken · ongeveer '+routeKm(k).toFixed(1).replace('.',',')+' km · '+r.sub+'</span></button>'; }).join('')+
   '<h3 style="margin-top:22px">Eerst proberen</h3><button class="variant" data-k="p"><b>Proefronde · ± 15 minuten</b><span>Drie plekken rond het 18 Septemberplein, met een kleine finale. Kan ook vanaf de bank, om te zien hoe het werkt.</span></button>'+
   '<h3 style="margin-top:22px">Plattegrond: alle plekken</h3><div id="mapA"></div>'+kleurLegenda()+'<button class="btn ghost" id="groot">Plattegrond groot bekijken</button>'+
+  '<p class="small" style="text-align:center"><a href="en/">English version</a></p>'+
   '<p class="small dim">Voor volwassenen en oudere studenten. Alleen of met een groepje op één telefoon. De tijden zijn een richtlijn: wie overal blijft kijken, doet er langer over. Neem een opgeladen telefoon mee.</p>';
   if(resume) $('#go').onclick=()=>render();
   $('#groot').onclick=()=>openPlattegrond(true);
