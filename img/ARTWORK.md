@@ -15,7 +15,31 @@ Gebruik deze beschrijving in elke prompt waar hij in voorkomt.
 
 - **Tonnie**: man van een jaar of zeventig, mager, grijze stofjas over een vest, platte pet, ronde bril. Vriendelijke, wat spottende ogen. In zijn borstzak een potlood, onder zijn arm een schrift met een harde kaft.
 
-## Moet
+## Stand op 17 november 2026
+
+**Al aanwezig (11):** foto's uit het document *Eindhoven City Walk* (Summa), bijgesneden en als WebP in deze map gezet.
+
+| Bestand | Plek | Bron in het document |
+|---|---|---|
+| `bk.webp` | De Bijenkorf | vraag 9, Insects! |
+| `blob.webp` | De Blob | vraag 6, Triangles! |
+| `wd.webp` | De Witte Dame | vraag 3, Books! |
+| `sta.webp` | Het station | vraag 10, What's On The Radio? |
+| `sta-2.webp` | Beeld Anton Philips (tweede beeld bij het station, na de opdracht) | vraag 11, Mister Eindhoven? |
+| `eff.webp` | De Effenaar | vraag 13, Time to Relax! |
+| `muur.webp` | De fabrieksmuur / het washuis | vraag 14, Nice Outfits! |
+| `daf.webp` | DAF Museum | vraag 17, It Moves us! |
+| `dyn.webp` | Dynamo | vraag 25, Forever Youth! |
+| `w-kanaal.webp` | weetje Eindhovens Kanaal | vraag 18, Floating Potential! |
+| `w-vest.webp` | weetje Vestedatoren | vraag 23, To The Sky And Beyond! |
+
+Liggende foto's zijn 1200×800, staande 1080×1350. De pagina laat beide vormen zien.
+
+**Niet gebruikt uit het document:** de beelden die van internet komen (Lichttoren bij nacht, Stratumseind, de Catharinakerk en de pleinen tijdens GLOW, de fietskelder, het Philips Museum). Die zijn van anderen en horen niet in een betaald product.
+
+**Nog te maken (16):** alles hieronder. Wil je één stijl, dan kun je de foto's hierboven later ook laten vervangen door een illustratie met dezelfde bestandsnaam.
+
+## Nog te maken: algemeen
 
 | Bestand | Maat | Waar | Prompt |
 |---|---|---|---|
@@ -26,28 +50,22 @@ Gebruik deze beschrijving in elke prompt waar hij in voorkomt.
 | `cover.webp` | 400×400 | kaart in de catalogus (later) | Close-up van een gloeiende gloeidraad in een glazen bol, met op de achtergrond onscherp de lichtjes van een stad. |
 | `og.jpg` | 1200×630 | deelplaatje | Het beeld van `hero`, liggend: de verlichte toren links, de gloeilamp groot rechts. Ruimte in het midden vrij. |
 
-## De plekken
-Eén beeld per plek, bovenaan het verhaal. Allemaal 1200×800 (liggend, 3:2). De bestandsnaam is de code van de plek.
+## Nog te maken: plekken
+Eén beeld per plek, bovenaan het verhaal. 1200×800 (liggend, 3:2) of 1080×1350 (staand, 4:5). De bestandsnaam is de code van de plek. Een eigen foto werkt net zo goed: zelfde bestandsnaam, WebP, en de pagina gebruikt hem.
 
 | Bestand | Plek | Prompt |
 |---|---|---|
-| `bk.webp` | De Bijenkorf | Een groot warenhuis uit de jaren zestig als een dichte doos van groen geglazuurde tegels in allerlei tinten groen, op een stadsplein bij schemer. Natte stenen, lantaarnlicht. |
-| `blob.webp` | De Blob | Een druppelvormig gebouw van glas en staal, opgebouwd uit honderden driehoekige ruiten, van binnenuit verlicht. Op de achtergrond een witte fabriekstoren. |
 | `lt.webp` | De Lichttoren | De witte zevenhoekige fabriekstoren van onderaf gezien, bij nacht. Achter elk raam rijen brandende gloeilampen op rekken. |
 | `ger.webp` | Gerard Philips | Een reusachtige buste van een man met snor en ronde bril, gestapeld uit honderden roestbruine lagen staal, in een park. Dwars door het beeld loopt een poort waar een wandelaar doorheen stapt. |
 | `psv.webp` | Philips Stadion | Een voetbalstadion midden tussen de huizen bij avond, lichtmasten aan, rood-witte sjaals in de mensenmassa op straat. Geen clublogo. |
-| `wd.webp` | De Witte Dame | Een lang, strak wit fabrieksgebouw van zes lagen met doorlopende stalen ramen, bij avond. Aan de overkant van de straat een donker bakstenen kantoor. |
 | `fab.webp` | Het eerste fabriekje | Een klein bakstenen fabriekje uit 1891 met een schoorsteen. Binnen, door het raam: een werkbank met glazen bollen en één brandende kooldraadlamp. |
 | `frits.webp` | Meneer Frits | Een bronzen standbeeld van een oudere heer in lange jas op een marktplein, tussen de terrassen. Avondlicht, mensen lopen langs. |
 | `kerk.webp` | De Catharinakerk | Een neogotische kerk met twee hoge torens die net van elkaar verschillen, van onderaf gezien, verlicht tegen een donkerblauwe lucht. |
 | `monu.webp` | Het Bevrijdingsmonument | Een bronzen beeldengroep van drie figuren die omhoog reiken, met ervoor een brandende fakkel, op een leeg plein bij schemer. |
-| `dyn.webp` | Dynamo | Een parkeerterrein in de jaren tachtig met een eenvoudig podium, een zee van mensen met lang haar en spijkerjacks, rook en felle podiumlampen. |
 | `strat.webp` | Stratumseind | Een smalle uitgaansstraat bij nacht, aan weerskanten cafés, erboven lantaarns die de straat in een zachte kleur zetten. Druk, warm, nat plaveisel. |
-| `daf.webp` | DAF Museum | Een smederij uit de jaren twintig in een hoek van een brouwerij: een man last aan een aanhangwagen, vonken, op de achtergrond biervaten. |
-| `eff.webp` | De Effenaar | Een rokerig zaaltje in een oude fabriek in de jaren zeventig: een punkband op een laag podium, bakstenen muren, een paar felle spots. Gezichten niet herkenbaar. |
-| `muur.webp` | De fabrieksmuur | Een stuk oude bakstenen fabrieksmuur uit de negentiende eeuw met een klein wit washuisje ernaast, waar licht door de ramen naar buiten valt. |
 | `silly.webp` | De Silly Walks-tunnel | Een lange voetgangerstunnel met op de muur een rij getekende silhouetten van een man met bolhoed in steeds een andere malle pas. Aan het eind daglicht. |
 | `ath.webp` | De kernreactor | Een laag, gesloten betonnen laboratoriumgebouw uit de jaren zestig tussen de bomen op een universiteitsterrein, één verlichte deur, een blauwe gloed achter een hoog raam. |
-| `sta.webp` | Het station | Een stationsgebouw uit de jaren vijftig dat op een oude radio lijkt: een brede lage hal, links een toren, een grote ronde klok. Ervoor een bronzen standbeeld met de rug naar het station. |
 
-Totaal: 6 + 18 = 24 beelden.
+## Kan erbij (niet nodig)
+- Een weetje krijgt een plaatje als er `img/<code>.webp` staat: `w-pins`, `w-abbe`, `w-adm`, `w-pater`, `w-fiets`, `w-muziek`, `w-dommel`, `w-tue`.
+- Een tweede beeld na de opdracht: `img/<code>-2.webp` (nu alleen `sta-2`).

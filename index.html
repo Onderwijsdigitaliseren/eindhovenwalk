@@ -58,7 +58,7 @@ ul.facts li{margin:.5em 0}
 .mapbtns button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:rgba(24,27,39,.92);color:var(--ink);font-size:1.2rem;cursor:pointer;padding:0}
 #toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#f3ecdc;color:#1a1300;padding:10px 16px;border-radius:999px;font-size:.92rem;z-index:9;display:none;max-width:90vw;text-align:center}
 .ava{float:right;width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 0 6px 10px;border:2px solid var(--amber)}
-.pic{display:block;width:100%;border-radius:14px;margin:10px 0;aspect-ratio:3/2;object-fit:cover;background:#0c0e15}
+.pic{display:block;width:100%;height:auto;max-height:72vh;border-radius:14px;margin:10px 0;object-fit:cover;background:#0c0e15}
 .hero{display:block;width:100%;border-radius:16px;margin:0 0 14px;aspect-ratio:4/5;object-fit:cover}
 .testbtn{border-style:dashed!important;color:var(--dim)!important}
 .q{font-family:var(--serif);font-size:1.18rem;margin:.2em 0 .7em}
@@ -530,7 +530,7 @@ function makeMap(host, opt){
 function kleurLegenda(){ return '<p class="small" style="margin:.5em 0 0"><span style="color:'+GKLEUR.k+'">●</span> in elke wandeling &nbsp; <span style="color:'+GKLEUR.m+'">●</span> erbij vanaf 1,5 uur &nbsp; <span style="color:'+GKLEUR.l+'">●</span> alleen in 2 uur &nbsp; <span style="color:#9fd0ff">ⓘ</span> weetje</p><p class="small dim" style="margin:.2em 0 0">Sleep om te schuiven, knijp of gebruik + en − om te zoomen. Tik op een punt voor meer.</p>'; }
 function toast(t){ let e=$('#toast'); if(!e){ e=document.createElement('div'); e.id='toast'; document.body.appendChild(e); } e.textContent=t; e.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>e.style.display='none',2600); }
 function tapPoint(b){
-  if(b.w){ openSheet('<p class="kicker" style="color:#9fd0ff">Weetje</p><h2>'+b.w.name+'</h2><p>'+b.w.t+'</p><p class="small dim">Geen opdracht hier. Loop er gerust langs als het op je route ligt.</p>'); return; }
+  if(b.w){ openSheet('<p class="kicker" style="color:#9fd0ff">Weetje</p><h2>'+b.w.name+'</h2><img class="pic" src="img/'+b.w.id+'.webp" alt="" onerror="this.remove()"><p>'+b.w.t+'</p><p class="small dim">Geen opdracht hier. Loop er gerust langs als het op je route ligt.</p>'); return; }
   const id=b.stop, s=STOPS[id], inR=S.route && ROUTES[S.route].stops.includes(id), done=S.route && S.done[id];
   let h='<p class="kicker">'+(done?'Lamp aan · '+s.year : inR?'Plek '+(ROUTES[S.route].stops.indexOf(id)+1)+' van jouw wandeling' : S.route?'Niet in deze wandeling':'Plek van de wandeling')+'</p><h2>'+s.name+'</h2>';
   if(done || !S.route) h+='<ul class="facts">'+s.info.map(t=>'<li>'+t+'</li>').join('')+'</ul>';
@@ -666,7 +666,7 @@ function solved(help){ S.done[curId()]=help?2:1; S.phase='after'; render(); }
 function vAfter(){
   const s=cur(), p=s.puzzle, id=curId(), last=S.i===ROUTES[S.route].stops.length-1;
   const antw = p.type==='num' ? p.answer : p.type==='choice' ? p.options[p.correct] : p.type==='text' ? p.show : 'Alle lampen aan';
-  app.innerHTML=head()+'<p class="kicker" style="color:var(--ok)">'+(S.done[id]===2?'Opgelost met hulp':'Draad gevonden')+'</p><h2>'+antw+'</h2><p>'+s.after+'</p>'+
+  app.innerHTML=head()+'<p class="kicker" style="color:var(--ok)">'+(S.done[id]===2?'Opgelost met hulp':'Draad gevonden')+'</p><h2>'+antw+'</h2><p>'+s.after+'</p><img class="pic" src="img/'+id+'-2.webp" alt="" onerror="this.remove()">'+
   '<div class="lamp"><span class="yr">'+s.year+'</span><span><b>'+s.short+'</b><br><span class="small dim">'+s.yearWhy+' · staat in je schrift</span></span></div>'+
   '<button class="btn" id="go">'+(last?'Terug naar het plein':'Loop verder')+'</button>';
   $('#go').onclick=()=>{ if(last){ S.phase='back'; } else { S.i++; S.phase='walk'; } render(); };
