@@ -35,7 +35,7 @@ UI = [
  ('<title>De Gloeidraad – stadswandeling Eindhoven</title>', '<title>The Filament – Eindhoven city walk</title>'),
  ('content="De Gloeidraad: een puzzelwandeling van 1, 1,5 of 2 uur door de binnenstad van Eindhoven, langs Philips, PSV, de Blob, de Effenaar en meer."', 'content="The Filament: a puzzle walk of 1, 1.5 or 2 hours through Eindhoven city centre, past Philips, PSV, the Blob, the Effenaar and more."'),
  ('content="De Gloeidraad – stadswandeling Eindhoven"', 'content="The Filament – Eindhoven city walk"'),
- ('📓 Schrift', '📓 Notebook'), ('🗺 Kaart', '🗺 Map'),
+ ('📓 Schrift', '📓 Notes'), ('🗺 Kaart', '🗺 Map'),
  ('Je bent er (bijna).', 'You’re (almost) there.'),
  ("'Nog ongeveer <b>'+(Math.round(d/10)*10)+' meter</b> hemelsbreed.'", "'About <b>'+(Math.round(d/10)*10)+' metres</b> to go, as the crow flies.'"),
  ('Plattegrond van de binnenstad van Eindhoven met de plekken van de wandeling', 'Map of Eindhoven city centre with the stops of the walk'),
