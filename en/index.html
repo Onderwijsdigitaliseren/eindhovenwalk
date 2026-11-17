@@ -587,13 +587,20 @@ const curId = () => ROUTES[S.route].stops[S.i];
 
 /* ---------- gps (werkt alleen waar de browser het toestaat) ---------- */
 let pos=null, gpsOn=false, gpsId=null, gpsMsg='';
-function gpsUpd(){ const el=$('#afst'); if(el) el.innerHTML=afstTxt(); redrawAll(); }
+const AANKOMST=40;   // meter: binnen deze afstand opent de plek vanzelf
+function gpsUpd(){
+  if(S.route && S.phase==='walk' && !S.bank && pos && (pos.acc||0)<80 && dist(pos,cur())<AANKOMST){
+    try{ navigator.vibrate && navigator.vibrate([60,40,60]); }catch(e){}
+    S.phase='info'; render(); toast('You’ve reached '+cur().short+'.'); return; }
+  const el=$('#afst'); if(el) el.innerHTML=afstTxt(); const mb=$('#maps'); if(mb && S.route) mb.style.display=dichtbij(cur())?'none':''; redrawAll(); }
+const dichtbij = s => !!pos && dist(pos,s)<80;
 function startGps(){
   if(gpsOn) return;
   if(!navigator.geolocation){ gpsMsg='This browser doesn’t share a location. The walk works without it too.'; gpsUpd(); return; }
   gpsOn=true; gpsMsg='Finding your location…'; gpsUpd();
   try{ gpsId=navigator.geolocation.watchPosition(p=>{ pos={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy||0}; gpsMsg=''; gpsUpd(); },
-    e=>{ pos=null; gpsOn=false; try{ navigator.geolocation.clearWatch(gpsId); }catch(_){ }
+    e=>{ if(!(e && e.code===1)){ if(!pos){ gpsMsg='Finding your location…'; gpsUpd(); } return; }   // tijdelijke storing (tunnel, binnen): blijf luisteren
+      pos=null; gpsOn=false; try{ navigator.geolocation.clearWatch(gpsId); }catch(_){ }
       gpsMsg = e && e.code===1 ? 'Location is blocked for this site. Allow location in your browser, then tap ◎ on the map.'
              : e && e.code===3 ? 'No location found. Tap ◎ on the map to try again.'
              : 'Your location can’t be determined right now. Tap ◎ on the map to try again.';
@@ -783,7 +790,7 @@ function tapPoint(b){
   let h='<p class="kicker">'+(done?'Lamp lit · '+s.year : inR?'Stop '+(ROUTES[S.route].stops.indexOf(id)+1)+' of your walk' : S.route?'Not in this walk':'Stop on the walk')+'</p><h2>'+s.name+'</h2>';
   if(done || !S.route) h+='<ul class="facts">'+s.info.map(t=>'<li>'+t+'</li>').join('')+'</ul>';
   else h+='<div class="quote">“'+s.tonnie+'”<small>FROM TONNIE’S NOTEBOOK</small></div><p class="small dim">You get the full story and the puzzle when you’re there.</p>';
-  h+='<a class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>';
+  if(!dichtbij(s)) h+='<a class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>';
   if(TEST) h+='<button class="btn ghost" id="verpl">Test: move pin</button>';
   openSheet(h);
   if(TEST) $('#verpl').onclick=()=>{ sheet.style.display='none'; MOVE=id; toast('Tap the map where “'+s.short+'” should be.'); };
@@ -805,7 +812,9 @@ function openCredits(){
   openSheet('<h2>Photo credits</h2>'+rows+'<p class="small dim">Illustrations and other photos: Enigma Mystery. Map data: © OpenStreetMap contributors, © OpenMapTiles.</p>');
 }
 /* ---------- testhulp: alleen op github.io / lokaal, uit met ?live ---------- */
-const TEST=(/github\.io$/.test(location.hostname) || /^(localhost|127\.0\.0\.1|)$/.test(location.hostname)) && !/[?&]live\b/.test(location.search);
+const TEST=(()=>{ const q=location.search; let t=false;
+  try{ if(/[?&]live\b/.test(q)) sessionStorage.removeItem('gloeidraad.test'); if(/[?&]test\b/.test(q)) sessionStorage.setItem('gloeidraad.test','1'); t=sessionStorage.getItem('gloeidraad.test')==='1'; }catch(e){ t=/[?&]test\b/.test(q); }
+  return t || (/^(localhost|127\.0\.0\.1|)$/.test(location.hostname) && !/[?&]live\b/.test(q)); })();
 let MOVE=null;
 const PINKEY='gloeidraad.pins';
 function pins(){ try{ return JSON.parse(localStorage.getItem(PINKEY))||{}; }catch(e){ return {}; } }
@@ -870,8 +879,8 @@ function vWalk(){
   app.innerHTML=head()+'<h2>'+(S.i===0?'Start: ':'Next: ')+s.name+'</h2><p>'+txt+'</p><p class="small" id="afst">'+afstTxt()+'</p>'+
   '<div id="mapA"></div>'+
   '<button class="btn" id="go">I’m here</button>'+
-  '<button class="btn ghost" id="plat">Full map</button>'+
-  '<a class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>';
+  '<button class="btn ghost" id="plat">Full map</button>'+(dichtbij(s)?'':
+  '<a id="maps" class="btn ghost" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+encodeURIComponent(s.maps)+'">Open in Maps</a>');
   makeMap($('#mapA'),{h:'50vh',focus:'cur'});
   $('#go').onclick=()=>{ S.phase='info'; render(); };
   $('#plat').onclick=()=>openPlattegrond();

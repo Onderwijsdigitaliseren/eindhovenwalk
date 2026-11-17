@@ -132,7 +132,8 @@ UI = [
  ('>Testhulp</h3>', '>Test tools</h3>'),
  ('Alleen zichtbaar op de testsite. Opdrachten kun je overslaan met “Test ⏭”. Staat een speld verkeerd: tik hem aan op de kaart, kies “speld verplaatsen” en tik de goede plek aan. Stuur daarna deze lijst door.', 'Only visible on the test site. Skip puzzles with “Test ⏭”. If a pin is wrong: tap it on the map, choose “move pin” and tap the right spot. Then send this list on.'),
  ('Nog geen spelden verplaatst.', 'No pins moved yet.'),
- ('🗑 Alles wissen', '🗑 Clear everything'), ('🗑 Wissen en opnieuw beginnen', '🗑 Clear and start over'),
+ ('🗑 Alles wissen', '🗑 Clear everything'),
+ ("toast('Je bent bij '+cur().short+'.')", "toast('You’ve reached '+cur().short+'.')"), ('🗑 Wissen en opnieuw beginnen', '🗑 Clear and start over'),
  ('Zeker weten? Tik nog een keer om alles te wissen', 'Are you sure? Tap again to clear everything'), ("toast('Alles gewist.')", "toast('Everything cleared.')"), ('>Spelden terugzetten</button>', '>Reset pins</button>'),
 ]
 for a, b in UI:
